@@ -1,0 +1,5 @@
+*.class
+.nb-gradle
+.nb-gradle-properties
+.gradle/
+
