@@ -11,6 +11,6 @@ import org.uirebels.grapheditor.view.*;
  *
  * @author bnamestka
  */
-public class JFXGraphEditorView {
+public class BobsGraphView {
     
 }

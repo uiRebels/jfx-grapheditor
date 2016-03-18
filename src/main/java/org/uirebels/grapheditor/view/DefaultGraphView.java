@@ -9,6 +9,6 @@ package org.uirebels.grapheditor.view;
  *
  * @author bnamestka
  */
-public class JFXGraphEditorDefaultView {
+public class DefaultGraphView {
     
 }

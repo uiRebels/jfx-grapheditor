@@ -13,7 +13,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class GraphEditorViewController {
+public class JFXGraphEditorViewController {
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
