@@ -1,7 +1,6 @@
 package org.uirebels.grapheditor;
 
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +8,26 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.uirebels.grapheditor.controller.JFXGraphEditorViewController;
 import static javafx.application.Application.launch;
+import org.uirebels.grapheditor.interfaces.viewmodel.ViewModel;
+import org.uirebels.grapheditor.viewmodel.DefaultViewModel;
 
 public class JFXGraphEditor extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/JFXGraphEditorView.fxml"));
+        
+        ViewModel viewModel = new DefaultViewModel();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/JFXGraphEditorView.fxml"));
+        Parent root = loader.load();
+
+        JFXGraphEditorViewController mainController = loader.<JFXGraphEditorViewController>getController();
+        mainController.setViewModel(viewModel);
+        viewModel.setMainController(mainController);
+        viewModel.setVertexView("SimpleVertexView");
+        viewModel.setEdgeView("SimpleEdgeView");
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");

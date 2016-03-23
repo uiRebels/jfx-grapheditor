@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.model;
+package org.uirebels.grapheditor.constants;
 
 /**
  *
  * @author bnamestka
  */
-public class JFXGraphEditorDefaultModel {
+public class StringConstant {
+    
+    public static final String COLON = ":";
     
 }

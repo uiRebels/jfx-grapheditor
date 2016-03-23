@@ -14,7 +14,12 @@ repositories {
 }
 
 dependencies {
+    compile 'org.apache.tinkerpop:gremlin-core:3.1.1-incubating'
     compile 'org.apache.tinkerpop:tinkergraph-gremlin:3.1.1-incubating'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
+
+    //    compile 'org.apache.tinkerpop:tinkerpop:3.1.1-incubating'
+    //    compile 'org.apache.tinkerpop:tinkergraph-gremlin:3.1.1-incubating'
 }
 
 group = 'org.uirebels.grapheditor'

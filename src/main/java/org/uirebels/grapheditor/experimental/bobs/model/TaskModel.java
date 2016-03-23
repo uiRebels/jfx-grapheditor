@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.experimental.model;
-
-import org.uirebels.grapheditor.model.*;
+package org.uirebels.grapheditor.experimental.bobs.model;
 
 /**
  *
  * @author bnamestka
  */
-public class JFXGraphEditorModel {
+public class TaskModel {
+    
+    
     
 }

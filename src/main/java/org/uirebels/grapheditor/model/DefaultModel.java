@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.view;
+package org.uirebels.grapheditor.model;
 
 /**
  *
  * @author bnamestka
  */
-public class DefaultGraphView {
+public class DefaultModel {
     
 }

@@ -2,4 +2,5 @@
 .nb-gradle
 .nb-gradle-properties
 .gradle/
+private/
 

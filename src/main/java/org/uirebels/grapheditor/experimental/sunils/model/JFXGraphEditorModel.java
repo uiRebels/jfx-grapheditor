@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.viewmodel;
+package org.uirebels.grapheditor.experimental.sunils.model;
+
+import org.uirebels.grapheditor.model.*;
 
 /**
  *
  * @author bnamestka
  */
-public class JFXGraphEditorDefaultViewModel {
+public class JFXGraphEditorModel {
     
 }

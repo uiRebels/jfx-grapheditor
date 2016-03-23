@@ -8,7 +8,7 @@
 
 <BorderPane id="graphEditorView" fx:id="graphEditorView" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uirebels.grapheditor.controller.JFXGraphEditorViewController">
    <top>
-      <MenuBar prefHeight="29.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <MenuBar id="menuBar" fx:id="menuBar" prefHeight="29.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <menus>
             <Menu id="fileMenu" fx:id="fileMenu" mnemonicParsing="false" text="File">
                <items>
@@ -50,4 +50,11 @@
          </menus>
       </MenuBar>
    </top>
+   <center>
+      <ScrollPane id="graphViewScrollPane" fx:id="graphViewScrollPane" fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+         <content>
+            <Pane id="graphViewPane" fx:id="graphViewPane" onMouseClicked="#addVertex" />
+         </content>
+      </ScrollPane>
+   </center>
 </BorderPane>

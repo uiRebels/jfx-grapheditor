@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.experimental.view;
+package org.uirebels.grapheditor.experimental.sunils.viewmodel;
 
-import org.uirebels.grapheditor.view.*;
+import org.uirebels.grapheditor.viewmodel.*;
 
 /**
  *
  * @author bnamestka
  */
-public class BobsGraphView {
+public class JFXGraphEditorViewModel {
     
 }
