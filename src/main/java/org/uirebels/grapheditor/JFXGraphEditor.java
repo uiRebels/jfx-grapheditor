@@ -9,30 +9,40 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.uirebels.grapheditor.controller.JFXGraphEditorViewController;
+import org.uirebels.grapheditor.view.AbstractVertexView;
+import org.uirebels.grapheditor.view.SimpleFXMLEdgeView;
+import org.uirebels.grapheditor.view.SimpleFXMLVertexView;
+import org.uirebels.grapheditor.viewmodel.SimpleTaskViewModel;
+import org.uirebels.grapheditor.view.AbstractEdgeView;
+import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
 import static javafx.application.Application.launch;
-import org.uirebels.grapheditor.interfaces.viewmodel.ViewModel;
-import org.uirebels.grapheditor.viewmodel.DefaultViewModel;
 
 public class JFXGraphEditor extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        
-        ViewModel viewModel = new DefaultViewModel();
+
+//        ContextModel userModel = new SimpleTaskModel();
+        AbstractViewModel viewModel = new SimpleTaskViewModel();
+//        viewModel.setModel(userModel);
+//        viewModel.setGraph(ContextModel.getGraph());
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/JFXGraphEditorView.fxml"));
         Parent root = loader.load();
 
         JFXGraphEditorViewController mainController = loader.<JFXGraphEditorViewController>getController();
         mainController.setViewModel(viewModel);
-        viewModel.setMainController(mainController);
-        viewModel.setVertexView("SimpleVertexView");
-        viewModel.setEdgeView("SimpleEdgeView");
+        viewModel.setGraphView(mainController.graphViewPane);
+//        viewModel.setMainController(mainController);
+        AbstractVertexView vView = new SimpleFXMLVertexView(viewModel);
+        viewModel.setVertexView(vView);
+        AbstractEdgeView eView = new SimpleFXMLEdgeView(viewModel);
+        viewModel.setEdgeView(eView);
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
 
-        stage.setTitle("JavaFX, Gradle and Tinkerpop3");
+        stage.setTitle("JavaFX and Tinkerpop3 Together");
         stage.setScene(scene);
         stage.show();
 

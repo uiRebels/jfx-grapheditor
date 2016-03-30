@@ -5,8 +5,7 @@
  */
 package org.uirebels.grapheditor.controller;
 
-import javafx.scene.Group;
-import org.uirebels.grapheditor.interfaces.viewmodel.ViewModel;
+import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
 
 /**
  *
@@ -14,15 +13,10 @@ import org.uirebels.grapheditor.interfaces.viewmodel.ViewModel;
  */
 public class AbstractViewController {
     
-        // instance variables and methods NOT defined by SceneBuilder
-    ViewModel viewModel;
-
-    public void setViewModel(ViewModel _viewModel) {
+    AbstractViewModel viewModel;
+    
+    public void setViewModel(AbstractViewModel _viewModel) {
         viewModel = _viewModel;
     }
-    
-    public Group getGraphic(){
-        return new Group();
-    }
-    
+      
 }

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.shape.*?>
 
 
-<Group id="edgeGroup" fx:id="edgeGroup" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uirebels.grapheditor.controller.SimpleEdgeViewController">
+<fx:root id="edgeGroup" fx:id="edgeGroup" type="Group" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Line id="edgeLine" fx:id="edgeLine" endX="50.0" stroke="#797979" strokeLineCap="ROUND" strokeWidth="2.0" />
    </children>
-</Group>
+</fx:root>

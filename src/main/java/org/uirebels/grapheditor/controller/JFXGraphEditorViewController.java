@@ -91,7 +91,7 @@ public class JFXGraphEditorViewController  extends AbstractViewController {
     private ScrollPane graphViewScrollPane; // Value injected by FXMLLoader
 
     @FXML // fx:id="graphViewPane"
-    private Pane graphViewPane; // Value injected by FXMLLoader
+    public Pane graphViewPane; // Value injected by FXMLLoader
 
     @FXML
     void addVertex(MouseEvent event) {
@@ -175,7 +175,6 @@ public class JFXGraphEditorViewController  extends AbstractViewController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        viewModel.setGraphView(graphViewPane);
 //        assert graphEditorView != null : "fx:id=\"graphEditorView\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
 //        assert menuBar != null : "fx:id=\"menuBar\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
 //        assert fileMenu != null : "fx:id=\"fileMenu\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
