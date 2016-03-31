@@ -25,6 +25,7 @@ import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
 public class SimpleFXMLVertexView extends AbstractVertexView {
 
     private static final String FXML_VIEW_PATH = "/fxml/SimpleVertexView.fxml";
+    private static final String CSS_STYLE_PATH = "/styles/SimpleVertexViewStyle.css";
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;

@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root id="vertexPane" fx:id="vertexPane" type="Pane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="vertexPane" fx:id="vertexPane" stylesheets="@../styles/SimpleVertexViewStyle.css" type="Pane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox id="vertexVBox" fx:id="vertexVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="175.0">
          <children>
@@ -35,7 +35,7 @@
                      <font>
                         <Font size="12.0" />
                      </font></Label>
-                  <Label id="vertexCloseLabel" fx:id="vertexCloseLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="20.0" text="X" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                  <Label id="vertexCloseLabel" fx:id="vertexCloseLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="20.0" text="X" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                      <font>
                         <Font size="12.0" />
                      </font></Label>
@@ -53,6 +53,9 @@
                </font>
             </TextArea>
          </children>
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
       </VBox>
    </children>
 </fx:root>

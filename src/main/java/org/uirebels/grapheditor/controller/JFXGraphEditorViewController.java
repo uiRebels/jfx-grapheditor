@@ -12,8 +12,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
-public class JFXGraphEditorViewController  extends AbstractViewController {
+public class JFXGraphEditorViewController extends AbstractViewController {
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -120,7 +121,8 @@ public class JFXGraphEditorViewController  extends AbstractViewController {
 
     @FXML
     void exitGraphEditor(ActionEvent event) {
-
+        Stage stage = (Stage) graphViewPane.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -200,5 +202,5 @@ public class JFXGraphEditorViewController  extends AbstractViewController {
 //        assert graphViewScrollPane != null : "fx:id=\"graphViewScrollPane\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
 //        assert graphViewPane != null : "fx:id=\"graphViewPane\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
 
-    }    
-} 
+    }
+}
