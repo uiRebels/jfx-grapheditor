@@ -13,6 +13,8 @@ import org.apache.tinkerpop.gremlin.structure.Edge;
 
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.uirebels.grapheditor.model.ContextModel;
+import org.uirebels.grapheditor.model.graph.AbstractEdge;
+import org.uirebels.grapheditor.model.graph.AbstractVertex;
 import org.uirebels.grapheditor.view.AbstractVertexView;
 import org.uirebels.grapheditor.view.AbstractEdgeView;
 
@@ -130,16 +132,16 @@ public abstract class AbstractViewModel {
     public abstract void connect(AbstractVertexView _vView1, AbstractVertexView _vView2);
 
     public void deleteVertex(AbstractVertexView _vertexView) {
-        Vertex vertex = (Vertex) _vertexView.getUserData();
+        AbstractVertex vertex = (AbstractVertex) _vertexView.getUserData();
         contextModel.deleteVertex(vertex);
     }
 
-    public void updateVertex(Vertex _vertex, Map<String, Object> _editedAttributes) {
+    public void updateVertex(AbstractVertex _vertex, Map<String, Object> _editedAttributes) {
         contextModel.updateVertex(_vertex, _editedAttributes);
     }
 
     public void deleteEdge(AbstractEdgeView _edgeView) {
-        Edge edge = (Edge) _edgeView.getUserData();
+        AbstractEdge edge = (AbstractEdge) _edgeView.getUserData();
         contextModel.deleteEdge(edge);
     }
 

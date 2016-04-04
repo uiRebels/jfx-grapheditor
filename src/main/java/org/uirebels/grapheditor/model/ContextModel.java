@@ -5,7 +5,7 @@
  */
 package org.uirebels.grapheditor.model;
 
-import org.uirebels.grapheditor.model.graph.AbstractVertexModel;
+import org.uirebels.grapheditor.model.graph.AbstractVertex;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +22,7 @@ import org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException;
 import org.apache.tinkerpop.shaded.jackson.databind.ObjectMapper;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.constants.StringConstant;
+import org.uirebels.grapheditor.model.graph.AbstractEdge;
 
 /**
  *
@@ -31,7 +32,7 @@ public class ContextModel {
 
     private static Graph GRAPH;
     private static Map<String, Object> graphAttributeMap = new HashMap<>();
-    private static Vertex lastVertex;
+    private static AbstractVertex lastVertex;
 
     /**
      *
@@ -124,7 +125,7 @@ public class ContextModel {
         });
     }
 
-    public Vertex getLastVertex() {
+    public AbstractVertex getLastVertex() {
         return lastVertex;
     }
 
@@ -133,42 +134,36 @@ public class ContextModel {
      * @param _vertexModel
      * @return
      */
-    public Vertex addVertex(AbstractVertexModel _vertexModel) {
-        Vertex v = GRAPH.addVertex(T.label, _vertexModel.getName());
-        v = _vertexModel.initializeVertex(v);
-        lastVertex = v;
-        return v;
+    public AbstractVertex addVertex(AbstractVertex _vertex) {
+        Vertex tinkerpopVertex = GRAPH.addVertex(T.label, _vertex.getName());
+        _vertex.initializeVertex(tinkerpopVertex);
+        lastVertex = _vertex;
+        return _vertex;
     }
 
     /**
      *
      * @param _vertex
      * @param _newProperties
-     * @return
      */
-    public Vertex updateVertex(Vertex _vertex, Map<String, Object> _newProperties) {
-        Set<String> vertexPropertyKeys = _vertex.keys();
-        for (String propName : _newProperties.keySet()) {
-            // update tinkerpop vertex property
-            if (vertexPropertyKeys.contains(propName)) {
-                _vertex.property(propName, _newProperties.get(propName));
-            }
-        }
-        return _vertex;
+    public void updateVertex(AbstractVertex _vertex, Map<String, Object> _newProperties) {
+        _vertex.update(_newProperties);
     }
 
-    public void deleteVertex(Vertex _vertex) {
-        _vertex.remove();
-//        attributeMap.clear();
+    public void deleteVertex(AbstractVertex _vertex) {
+        _vertex.delete();
     }
 
-    public Edge connect(Vertex _v1, Vertex _v2) {
-        Edge addedEdge = _v1.addEdge(StringConstant.NEXT, _v2);
+    public AbstractEdge connect(AbstractVertex _absV1, AbstractVertex _absV2) {
+        Vertex v1 = _absV1.getVertex();
+        Vertex v2 = _absV2.getVertex();
+        Edge tinkerpopEdge = v1.addEdge(StringConstant.NEXT, v2);
+        AbstractEdge addedEdge = new AbstractEdge(tinkerpopEdge);
         return addedEdge;
     }
 
-    public void deleteEdge(Edge _edge) {
-        _edge.remove();
+    public void deleteEdge(AbstractEdge _edge) {
+        _edge.delete();
     }
 
     public Edge updateEdge(Edge _edge, HashMap<String, Object> _newProperties) {

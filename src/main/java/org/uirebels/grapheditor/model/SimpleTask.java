@@ -5,25 +5,24 @@
  */
 package org.uirebels.grapheditor.model;
 
-import org.uirebels.grapheditor.model.graph.AbstractVertexModel;
-import java.util.HashMap;
+import org.uirebels.grapheditor.model.graph.AbstractVertex;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 
 /**
  *
  * @author bnamestka
  */
-public class SimpleTaskModel extends AbstractVertexModel {
+public class SimpleTask extends AbstractVertex {
 
-    private static final HashMap<String, Object> ATTRIBUTE_MAP = new HashMap<>();
-
+    // user domain object attibutes
     static {
-        ATTRIBUTE_MAP.put(ConfigurationConstant.ELEMENT_NAME_KEY, "Task");
+        ATTRIBUTE_MAP.clear();
+        ATTRIBUTE_MAP.put(ConfigurationConstant.ELEMENT_NAME_KEY, "Task Name");
         ATTRIBUTE_MAP.put("Description", "Simple description");
     }
 
-    public SimpleTaskModel() {
-        super(ATTRIBUTE_MAP);
+    public SimpleTask() {
+        super();
     }
 
 }

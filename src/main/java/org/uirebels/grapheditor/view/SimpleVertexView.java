@@ -22,10 +22,9 @@ import javafx.scene.layout.VBox;
 import org.uirebels.grapheditor.exceptions.VertexViewException;
 import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
 
-public class SimpleFXMLVertexView extends AbstractVertexView {
+public class SimpleVertexView extends AbstractVertexView {
 
     private static final String FXML_VIEW_PATH = "/fxml/SimpleVertexView.fxml";
-    private static final String CSS_STYLE_PATH = "/styles/SimpleVertexViewStyle.css";
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -51,11 +50,11 @@ public class SimpleFXMLVertexView extends AbstractVertexView {
     @FXML // fx:id="vertexTextArea"
     private TextArea vertexTextArea; // Value injected by FXMLLoader
 
-    public SimpleFXMLVertexView() throws VertexViewException {
+    public SimpleVertexView() throws VertexViewException {
         this(null);
     }
 
-    public SimpleFXMLVertexView(AbstractViewModel _viewModel) throws VertexViewException {
+    public SimpleVertexView(AbstractViewModel _viewModel) throws VertexViewException {
         URL fxmlURL = this.getClass().getResource(FXML_VIEW_PATH);
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(fxmlURL);
@@ -81,17 +80,15 @@ public class SimpleFXMLVertexView extends AbstractVertexView {
         vertexCloseLabel.setOnMouseClicked((MouseEvent event) -> {
             event.consume();
             deleteVertex();
-        });
+        });       
     }
 
-    // instance variables and methods NOT defined by SceneBuilder
-//    private static ViewModel viewModel;
-    public void setNameText(String _textString) {
-        vertexNameLabel.setText(_textString);
+    public Label getNameLabel() {
+        return vertexNameLabel;
     }
 
-    public void setDescriptionText(String _textString) {
-        vertexTextArea.setText(_textString);
+    public TextArea getDescriptionTextArea() {
+        return vertexTextArea;
     }
 
 }

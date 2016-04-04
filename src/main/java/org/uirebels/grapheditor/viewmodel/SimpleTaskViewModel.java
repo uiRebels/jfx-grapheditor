@@ -7,15 +7,17 @@ package org.uirebels.grapheditor.viewmodel;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.tinkerpop.gremlin.structure.Edge;
-
-import org.apache.tinkerpop.gremlin.structure.Vertex;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
+import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.exceptions.EdgeViewException;
 import org.uirebels.grapheditor.exceptions.VertexViewException;
-import org.uirebels.grapheditor.model.SimpleTaskModel;
+import org.uirebels.grapheditor.model.SimpleTask;
+import org.uirebels.grapheditor.model.graph.AbstractEdge;
+import org.uirebels.grapheditor.model.graph.AbstractVertex;
 import org.uirebels.grapheditor.view.AbstractVertexView;
-import org.uirebels.grapheditor.view.SimpleFXMLEdgeView;
-import org.uirebels.grapheditor.view.SimpleFXMLVertexView;
+import org.uirebels.grapheditor.view.SimpleEdgeView;
+import org.uirebels.grapheditor.view.SimpleVertexView;
 import org.uirebels.grapheditor.viewmodel.dialogs.SimpleTaskDialog;
 
 /**
@@ -39,9 +41,9 @@ public class SimpleTaskViewModel extends AbstractViewModel {
     // following methods deal with the GraphEditor operations
     @Override
     public void addVertex(double x, double y) {
-        SimpleFXMLVertexView vertexView = null;
+        SimpleVertexView vertexView = null;
         try {
-            vertexView = new SimpleFXMLVertexView();
+            vertexView = new SimpleVertexView();
         } catch (VertexViewException ex) {
             Logger.getLogger(SimpleTaskViewModel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -49,8 +51,9 @@ public class SimpleTaskViewModel extends AbstractViewModel {
             vertexView.setLayoutX(x);
             vertexView.setLayoutY(y);
 
-            final Vertex vertex = contextModel.addVertex(new SimpleTaskModel());
+            final AbstractVertex vertex = contextModel.addVertex(new SimpleTask());
             vertexView.setUserData(vertex);
+            System.out.println("****>> Vertex name is " + vertex.getName());
             getGraphView().getChildren().add(vertexView);
 
             if (getLastVertexView() != null) {
@@ -62,25 +65,39 @@ public class SimpleTaskViewModel extends AbstractViewModel {
     }
 
     @Override
+    public void deleteVertex(AbstractVertexView _vertexView) {
+        AbstractVertex vertex = (AbstractVertex) _vertexView.getUserData();
+        getGraphView().getChildren().remove(_vertexView);
+        vertex.delete();
+    }
+
+    @Override
     public void editVertex(AbstractVertexView _vertexView) {
-        Vertex vertex = (Vertex) _vertexView.getUserData();
+        AbstractVertex vertex = (AbstractVertex) _vertexView.getUserData();
+        SimpleVertexView svView = (SimpleVertexView) _vertexView;
+        ObjectBinding<Object> nameBinding = Bindings.valueAt(vertex.getPropertyMap(), ConfigurationConstant.ELEMENT_NAME_KEY);
+        ObjectBinding<Object> descriptionBinding = Bindings.valueAt(vertex.getPropertyMap(), "Description");
+        svView.getNameLabel().textProperty().bind(nameBinding.asString());
+        svView.getDescriptionTextArea().textProperty().bind(descriptionBinding.asString());
         SimpleTaskDialog.pop(this, vertex);
+        svView.getNameLabel().textProperty().unbind();
+        svView.getDescriptionTextArea().textProperty().unbind();
     }
 
     @Override
     public void connect(AbstractVertexView _vView1, AbstractVertexView _vView2) {
-        Vertex v1 = (Vertex) _vView1.getUserData();
-        Vertex v2 = (Vertex) _vView2.getUserData();
+        AbstractVertex v1 = (AbstractVertex) _vView1.getUserData();
+        AbstractVertex v2 = (AbstractVertex) _vView2.getUserData();
 
-        SimpleFXMLEdgeView edgeView = null;
+        SimpleEdgeView edgeView = null;
         try {
-            edgeView = new SimpleFXMLEdgeView();
+            edgeView = new SimpleEdgeView();
         } catch (EdgeViewException ex) {
             Logger.getLogger(SimpleTaskViewModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (edgeView != null) {
             edgeView.setLineEndPoints(edgeView.getEndPoints(_vView1, _vView2));
-            final Edge edge = contextModel.connect(v1, v2);
+            final AbstractEdge edge = contextModel.connect(v1, v2);
             edgeView.setUserData(edge);
             getGraphView().getChildren().add(edgeView);
         }

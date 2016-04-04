@@ -10,11 +10,14 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.uirebels.grapheditor.controller.JFXGraphEditorViewController;
 import org.uirebels.grapheditor.view.AbstractVertexView;
-import org.uirebels.grapheditor.view.SimpleFXMLEdgeView;
-import org.uirebels.grapheditor.view.SimpleFXMLVertexView;
+import org.uirebels.grapheditor.view.SimpleEdgeView;
+import org.uirebels.grapheditor.view.SimpleVertexView;
 import org.uirebels.grapheditor.viewmodel.SimpleTaskViewModel;
 import org.uirebels.grapheditor.view.AbstractEdgeView;
 import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
+import static javafx.application.Application.launch;
+import static javafx.application.Application.launch;
+import static javafx.application.Application.launch;
 import static javafx.application.Application.launch;
 
 public class JFXGraphEditor extends Application {
@@ -34,9 +37,9 @@ public class JFXGraphEditor extends Application {
         mainController.setViewModel(viewModel);
         viewModel.setGraphView(mainController.graphViewPane);
 //        viewModel.setMainController(mainController);
-        AbstractVertexView vView = new SimpleFXMLVertexView(viewModel);
+        AbstractVertexView vView = new SimpleVertexView(viewModel);
         viewModel.setVertexView(vView);
-        AbstractEdgeView eView = new SimpleFXMLEdgeView(viewModel);
+        AbstractEdgeView eView = new SimpleEdgeView(viewModel);
         viewModel.setEdgeView(eView);
 
         Scene scene = new Scene(root);

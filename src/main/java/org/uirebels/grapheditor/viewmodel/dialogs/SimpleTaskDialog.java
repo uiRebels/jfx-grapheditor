@@ -16,8 +16,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
+import org.uirebels.grapheditor.model.graph.AbstractVertex;
 import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
 
 /**
@@ -26,7 +26,7 @@ import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
  */
 public class SimpleTaskDialog {
 
-    public static void pop(AbstractViewModel _viewModel, Vertex _vertex) {
+    public static void pop(AbstractViewModel _viewModel, AbstractVertex _vertex) {
 
         Dialog<String> dialog = new Dialog<>();
         final TextField txUserName = new TextField();
@@ -34,17 +34,17 @@ public class SimpleTaskDialog {
         final GridPane content = new GridPane();
         content.setHgap(10);
         content.setVgap(10);
-        Map<String, Object> vertexProperties = _viewModel.getContextModel().getProperties(_vertex);
+        Map<String, Object> vertexProperties = _vertex.getPropertiesMap();
         // "Name" is an integral part of a Tinkerpop Element (as the Element.label)
         //  this is also included in the property map, so for this use case, temporarily
         // remove from the property map.
         if(vertexProperties.containsKey(ConfigurationConstant.ELEMENT_NAME_KEY)){
             vertexProperties.remove(ConfigurationConstant.ELEMENT_NAME_KEY);
         }
-        String name = _vertex.label();
+        String name = _vertex.getName();
         content.add(new Label(ConfigurationConstant.ELEMENT_NAME_KEY), 0, 0);
         TextField tField = new TextField();
-        tField.setUserData(name);
+        tField.setUserData(ConfigurationConstant.ELEMENT_NAME_KEY);
         tField.setText(name);
         content.add(tField, 1, 0);
         int row = 1;

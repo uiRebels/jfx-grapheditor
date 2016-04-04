@@ -19,7 +19,7 @@ import javafx.scene.shape.Line;
 import org.uirebels.grapheditor.exceptions.EdgeViewException;
 import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
 
-public class SimpleFXMLEdgeView extends AbstractEdgeView {
+public class SimpleEdgeView extends AbstractEdgeView {
     
     private static final String FXML_VIEW_PATH = "/fxml/SimpleEdgeView.fxml";
 
@@ -32,12 +32,12 @@ public class SimpleFXMLEdgeView extends AbstractEdgeView {
     @FXML
     private Line edgeLine;
 
-    public SimpleFXMLEdgeView() throws EdgeViewException {
+    public SimpleEdgeView() throws EdgeViewException {
         this(null);
     }
 
 
-    public SimpleFXMLEdgeView(AbstractViewModel _viewModel) throws EdgeViewException {
+    public SimpleEdgeView(AbstractViewModel _viewModel) throws EdgeViewException {
         URL fxmlURL = this.getClass().getResource(FXML_VIEW_PATH);
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(fxmlURL);
