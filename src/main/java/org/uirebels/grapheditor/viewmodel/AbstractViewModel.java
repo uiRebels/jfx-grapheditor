@@ -9,12 +9,9 @@ import java.util.Map;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Pane;
-import org.apache.tinkerpop.gremlin.structure.Edge;
-
-import org.apache.tinkerpop.gremlin.structure.Vertex;
-import org.uirebels.grapheditor.model.ContextModel;
-import org.uirebels.grapheditor.model.graph.AbstractEdge;
-import org.uirebels.grapheditor.model.graph.AbstractVertex;
+import org.uirebels.grapheditor.model.graph.AbstractGraphModel;
+import org.uirebels.grapheditor.model.edge.AbstractEdge;
+import org.uirebels.grapheditor.model.vertex.AbstractVertex;
 import org.uirebels.grapheditor.view.AbstractVertexView;
 import org.uirebels.grapheditor.view.AbstractEdgeView;
 
@@ -35,10 +32,10 @@ public abstract class AbstractViewModel {
     protected  final ObjectProperty<AbstractVertexView> lastVertexViewProperty;
     protected  final ObjectProperty<AbstractEdgeView> edgeViewProperty;
 
-    protected final ContextModel contextModel;
+    protected final AbstractGraphModel contextModel;
 
     public AbstractViewModel() {
-        contextModel = new ContextModel();
+        contextModel = new AbstractGraphModel();
 //        graphModelProperty = new SimpleObjectProperty<>();
 //        vertexModelProperty = new SimpleObjectProperty<>();
 //        edgeModelProperty = new SimpleObjectProperty<>();
@@ -49,7 +46,7 @@ public abstract class AbstractViewModel {
 //        domainModelProperty = new SimpleObjectProperty<>();
     }
 
-    public ContextModel getContextModel() {
+    public AbstractGraphModel getContextModel() {
         return contextModel;
     }
 
@@ -62,12 +59,12 @@ public abstract class AbstractViewModel {
 //    }
 //
 //
-//    public ContextModel getGraphModel() {
+//    public AbstractGraphModel getGraphModel() {
 //        return graphModelProperty.get();
 //    }
 //
 //
-//    public void setModel(ContextModel _model) {
+//    public void setModel(AbstractGraphModel _model) {
 //        graphModelProperty.setValue(_model);
 //    }
 //

@@ -16,19 +16,13 @@ import org.uirebels.grapheditor.viewmodel.SimpleTaskViewModel;
 import org.uirebels.grapheditor.view.AbstractEdgeView;
 import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
 import static javafx.application.Application.launch;
-import static javafx.application.Application.launch;
-import static javafx.application.Application.launch;
-import static javafx.application.Application.launch;
 
 public class JFXGraphEditor extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
 
-//        ContextModel userModel = new SimpleTaskModel();
         AbstractViewModel viewModel = new SimpleTaskViewModel();
-//        viewModel.setModel(userModel);
-//        viewModel.setGraph(ContextModel.getGraph());
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/JFXGraphEditorView.fxml"));
         Parent root = loader.load();
@@ -36,7 +30,7 @@ public class JFXGraphEditor extends Application {
         JFXGraphEditorViewController mainController = loader.<JFXGraphEditorViewController>getController();
         mainController.setViewModel(viewModel);
         viewModel.setGraphView(mainController.graphViewPane);
-//        viewModel.setMainController(mainController);
+
         AbstractVertexView vView = new SimpleVertexView(viewModel);
         viewModel.setVertexView(vView);
         AbstractEdgeView eView = new SimpleEdgeView(viewModel);

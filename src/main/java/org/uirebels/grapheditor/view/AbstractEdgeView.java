@@ -45,12 +45,13 @@ public abstract class AbstractEdgeView extends Group {
         double ctrY2 = v2Bounds.getMinY() + (v2Bounds.getHeight() * 0.5);
 
         double slope = (ctrY2 - ctrY1) / (ctrX2 - ctrX1);
-        double yint = ctrY1 - (slope * ctrX1);
+        double yint1 = ctrY1 - (slope * ctrX1);
+        double yint2 = ctrY2 - (slope * ctrX2);
         
         double x1 = v1Bounds.getMinX() + v1Bounds.getWidth() + XOFFSET;
-        double y1 = slope * x1 + yint;
+        double y1 = slope * x1 + yint1;
         double x2 = v2Bounds.getMinX() - XOFFSET;
-        double y2 = slope * x2 + yint;
+        double y2 = slope * x2 + yint2;
         
         endPoints.addAll(Arrays.asList(x1, y1, x2, y2));
         return endPoints;

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.model;
+package org.uirebels.grapheditor.model.graph;
 
-import org.uirebels.grapheditor.model.graph.AbstractVertex;
+import org.uirebels.grapheditor.model.vertex.AbstractVertex;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -22,13 +22,13 @@ import org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException;
 import org.apache.tinkerpop.shaded.jackson.databind.ObjectMapper;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.constants.StringConstant;
-import org.uirebels.grapheditor.model.graph.AbstractEdge;
+import org.uirebels.grapheditor.model.edge.AbstractEdge;
 
 /**
  *
  * @author bnamestka
  */
-public class ContextModel {
+public class AbstractGraphModel {
 
     private static Graph GRAPH;
     private static Map<String, Object> graphAttributeMap = new HashMap<>();
@@ -41,7 +41,7 @@ public class ContextModel {
      * in sync.
      *
      */
-    public ContextModel() {
+    public AbstractGraphModel() {
         GRAPH = createGraph();
     }
 
@@ -50,7 +50,7 @@ public class ContextModel {
      * @param _graphAttributeMap
      * @param _defaultAttributeMap
      */
-    public ContextModel(Map<String, Object> _graphAttributeMap) {
+    public AbstractGraphModel(Map<String, Object> _graphAttributeMap) {
         GRAPH = createGraph();
         setGraphAttributes(_graphAttributeMap);
     }
@@ -110,7 +110,7 @@ public class ContextModel {
         try {
             jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(graphAttributeMap);
         } catch (JsonProcessingException ex) {
-            Logger.getLogger(ContextModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractGraphModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return jsonString;
     }

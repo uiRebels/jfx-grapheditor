@@ -17,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
-import org.uirebels.grapheditor.model.graph.AbstractVertex;
+import org.uirebels.grapheditor.model.vertex.AbstractVertex;
 import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
 
 /**

@@ -5,7 +5,7 @@
  */
 package org.uirebels.grapheditor.model;
 
-import org.uirebels.grapheditor.model.graph.AbstractVertex;
+import org.uirebels.grapheditor.model.vertex.AbstractVertex;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 
 /**

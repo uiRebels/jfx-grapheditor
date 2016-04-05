@@ -13,8 +13,8 @@ import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.exceptions.EdgeViewException;
 import org.uirebels.grapheditor.exceptions.VertexViewException;
 import org.uirebels.grapheditor.model.SimpleTask;
-import org.uirebels.grapheditor.model.graph.AbstractEdge;
-import org.uirebels.grapheditor.model.graph.AbstractVertex;
+import org.uirebels.grapheditor.model.edge.AbstractEdge;
+import org.uirebels.grapheditor.model.vertex.AbstractVertex;
 import org.uirebels.grapheditor.view.AbstractVertexView;
 import org.uirebels.grapheditor.view.SimpleEdgeView;
 import org.uirebels.grapheditor.view.SimpleVertexView;
@@ -26,13 +26,6 @@ import org.uirebels.grapheditor.viewmodel.dialogs.SimpleTaskDialog;
  */
 public class SimpleTaskViewModel extends AbstractViewModel {
 
-////    private final ObjectProperty<ContextModel> graphModelProperty;
-//    private final ObjectProperty<Pane> graphViewProperty;
-//    private final ObjectProperty<AbstractVertexView> vertexViewProperty;
-//    private final ObjectProperty<AbstractVertexView> lastVertexViewProperty;
-//    private final ObjectProperty<AbstractEdgeView> edgeViewProperty;
-//
-//    private final ContextModel contextModel;
     public SimpleTaskViewModel() {
         super();
     }
@@ -59,7 +52,6 @@ public class SimpleTaskViewModel extends AbstractViewModel {
             if (getLastVertexView() != null) {
                 connect(getLastVertexView(), vertexView);
             }
-
             setLastVertexView(vertexView);
         }
     }
@@ -75,6 +67,9 @@ public class SimpleTaskViewModel extends AbstractViewModel {
     public void editVertex(AbstractVertexView _vertexView) {
         AbstractVertex vertex = (AbstractVertex) _vertexView.getUserData();
         SimpleVertexView svView = (SimpleVertexView) _vertexView;
+        // setup temporary bindings so that the dialog can get the changes 
+        // to the AbstractViewModel which changes the AbstractVertex 
+        // and those values are bound to the UI
         ObjectBinding<Object> nameBinding = Bindings.valueAt(vertex.getPropertyMap(), ConfigurationConstant.ELEMENT_NAME_KEY);
         ObjectBinding<Object> descriptionBinding = Bindings.valueAt(vertex.getPropertyMap(), "Description");
         svView.getNameLabel().textProperty().bind(nameBinding.asString());

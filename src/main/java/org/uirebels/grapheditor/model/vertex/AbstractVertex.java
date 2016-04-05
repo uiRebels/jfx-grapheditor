@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.model.graph;
+package org.uirebels.grapheditor.model.vertex;
 
 import java.util.HashMap;
 import java.util.Map;
