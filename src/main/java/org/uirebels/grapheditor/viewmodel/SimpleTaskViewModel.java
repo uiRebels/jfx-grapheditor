@@ -70,8 +70,8 @@ public class SimpleTaskViewModel extends AbstractViewModel {
         // setup temporary bindings so that the dialog can get the changes 
         // to the AbstractViewModel which changes the AbstractVertex 
         // and those values are bound to the UI
-        ObjectBinding<Object> nameBinding = Bindings.valueAt(vertex.getPropertyMap(), ConfigurationConstant.ELEMENT_NAME_KEY);
-        ObjectBinding<Object> descriptionBinding = Bindings.valueAt(vertex.getPropertyMap(), "Description");
+        ObjectBinding<Object> nameBinding = Bindings.valueAt(vertex.getObservablePropertyMap(), ConfigurationConstant.ELEMENT_NAME_KEY);
+        ObjectBinding<Object> descriptionBinding = Bindings.valueAt(vertex.getObservablePropertyMap(), "Description");
         svView.getNameLabel().textProperty().bind(nameBinding.asString());
         svView.getDescriptionTextArea().textProperty().bind(descriptionBinding.asString());
         SimpleTaskDialog.pop(this, vertex);

@@ -25,7 +25,7 @@ public abstract class AbstractVertex {
 
     private Vertex vertex;
     private final Map<String, Object> tinkerpopPropertyMap;
-    // following is the javafx ObservableMap which contains 
+    // following is the javafx ObservableMap which contains the tinkerpop properties 
     private final ObservableMap<String, Object> propertyMap;
 
     /**
@@ -38,7 +38,6 @@ public abstract class AbstractVertex {
      */
     /**
      *
-     * @param _defaultAttributeMap
      */
     public AbstractVertex() {
         tinkerpopPropertyMap = new HashMap<>(ATTRIBUTE_MAP);
@@ -62,6 +61,7 @@ public abstract class AbstractVertex {
     }
 
     public void update(Map<String, Object> _attrMap) {
+        // keeps both JavaFX map and tinkerpop vertex properties in sync
         Set<String> vertexPropertyKeys = vertex.keys();
         for (String propName : _attrMap.keySet()) {
             // update tinkerpop vertex property
@@ -97,7 +97,7 @@ public abstract class AbstractVertex {
         return propMap;
     }
 
-    public ObservableMap<String, Object> getPropertyMap() {
+    public ObservableMap<String, Object> getObservablePropertyMap() {
         return propertyMap;
     }
 //

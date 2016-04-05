@@ -158,7 +158,9 @@ public class AbstractGraphModel {
         Vertex v1 = _absV1.getVertex();
         Vertex v2 = _absV2.getVertex();
         Edge tinkerpopEdge = v1.addEdge(StringConstant.NEXT, v2);
-        AbstractEdge addedEdge = new AbstractEdge(tinkerpopEdge);
+//        AbstractEdge addedEdge = new AbstractEdge(tinkerpopEdge);
+        AbstractEdge addedEdge = new AbstractEdge();
+        addedEdge.initializeEdge(tinkerpopEdge);
         return addedEdge;
     }
 

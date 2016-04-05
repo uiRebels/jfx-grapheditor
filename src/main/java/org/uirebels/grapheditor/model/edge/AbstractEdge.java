@@ -8,12 +8,11 @@ package org.uirebels.grapheditor.model.edge;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import javafx.beans.property.MapProperty;
-import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Property;
-import org.apache.tinkerpop.gremlin.structure.VertexProperty;
+import org.uirebels.grapheditor.constants.ConfigurationConstant;
 
 /**
  *
@@ -21,9 +20,13 @@ import org.apache.tinkerpop.gremlin.structure.VertexProperty;
  */
 public class AbstractEdge {
 
+    // only used by the subclass to initialize the tinkerpopPropertyMap
+    protected static final HashMap<String, Object> ATTRIBUTE_MAP = new HashMap<>();
+
     private Edge edge;
     private Map<String, Object> tinkerpopPropertyMap = new HashMap<>();
-    private MapProperty<String, Property> mapProperty = new SimpleMapProperty<>(FXCollections.observableHashMap());
+    // following is the javafx ObservableMap which contains the tinkerpop properties 
+    private final ObservableMap<String, Object> propertyMap;
 
     /**
      *
@@ -31,28 +34,15 @@ public class AbstractEdge {
      * simple Map<String, Object> object model) and the tinkerpop property model
      * in sync.
      *
-     * @param _edge
      */
-    public AbstractEdge(Edge _edge) {
-        edge = _edge;
-    }
-
-    /**
-     *
-     * @param _edge
-     * @param _defaultAttributeMap
-     */
-    public AbstractEdge(Edge _edge, Map<String, Object> _defaultAttributeMap) {
-        edge = _edge;
-        tinkerpopPropertyMap = _defaultAttributeMap;
-        setEdgeProperties();
+    public AbstractEdge() {
+        tinkerpopPropertyMap = new HashMap<>(ATTRIBUTE_MAP);
+        propertyMap = FXCollections.observableMap(tinkerpopPropertyMap);
     }
 
     private void setEdgeProperties() {
         tinkerpopPropertyMap.keySet().stream().forEach((key) -> {
             Property vProp = edge.property(key, tinkerpopPropertyMap.get(key));
-            mapProperty.put(key, vProp);
-
         });
     }
 
@@ -65,13 +55,14 @@ public class AbstractEdge {
         return edge;
     }
 
-    public void update(Map<String, Object> _attributeMap) {
+    public void update(Map<String, Object> _attrMap) {
+        // keeps both JavaFX map and tinkerpop vertex properties in sync
         Set<String> propertyKeys = edge.keys();
-        for (String propName : _attributeMap.keySet()) {
-            // update tinkerpop vertex property
+        for (String propName : _attrMap.keySet()) {
+            // update tinkerpop edge property
             if (propertyKeys.contains(propName)) {
-                Property prop = edge.property(propName, _attributeMap.get(propName));
-                mapProperty.put(propName, prop);
+                Property prop = edge.property(propName, _attrMap.get(propName));
+                propertyMap.put(propName, _attrMap.get(propName));
             }
         }
     }
@@ -81,8 +72,10 @@ public class AbstractEdge {
         // remove vertex from graph
         edge.remove();
         // set refs to null
-        tinkerpopPropertyMap = null;
-        mapProperty = null;
+    }
+
+    public String getName() {
+        return (String) tinkerpopPropertyMap.get(ConfigurationConstant.ELEMENT_NAME_KEY);
     }
 
     public Map<String, Object> getPropertiesMap() {
@@ -92,6 +85,10 @@ public class AbstractEdge {
             propMap.put(key, edge.property(key));
         });
         return propMap;
+    }
+
+    public ObservableMap<String, Object> getObservablePropertyMap() {
+        return propertyMap;
     }
 
 }
