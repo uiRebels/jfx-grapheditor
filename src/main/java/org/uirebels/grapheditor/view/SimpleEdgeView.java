@@ -11,7 +11,6 @@ package org.uirebels.grapheditor.view;
  */
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,11 +57,13 @@ public class SimpleEdgeView extends AbstractEdgeView {
     void initialize() {
     }
     
-    public void setLineEndPoints(List _ptList){
-        edgeLine.setStartX((double) _ptList.get(0));
-        edgeLine.setStartY((double) _ptList.get(1));
-        edgeLine.setEndX((double) _ptList.get(2));
-        edgeLine.setEndY((double) _ptList.get(3));
+    @Override
+    public void bindEndPoints(AbstractVertexView vView1, AbstractVertexView vView2) {
+        // binding
+        edgeLine.startXProperty().bind(vView1.outXProperty());
+        edgeLine.startYProperty().bind(vView1.outYProperty());
+        edgeLine.endXProperty().bind(vView2.inXProperty());
+        edgeLine.endYProperty().bind(vView2.inYProperty());
     }
             
 }

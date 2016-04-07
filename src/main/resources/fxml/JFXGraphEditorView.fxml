@@ -53,7 +53,7 @@
    <center>
       <ScrollPane id="graphViewScrollPane" fx:id="graphViewScrollPane" fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
          <content>
-            <Pane id="graphViewPane" fx:id="graphViewPane" onMouseClicked="#addVertex" />
+            <Pane id="graphViewPane" fx:id="graphViewPane" />
          </content>
       </ScrollPane>
    </center>

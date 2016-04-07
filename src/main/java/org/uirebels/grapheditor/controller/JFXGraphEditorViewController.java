@@ -3,7 +3,9 @@ package org.uirebels.grapheditor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -94,11 +96,7 @@ public class JFXGraphEditorViewController extends AbstractViewController {
     @FXML // fx:id="graphViewPane"
     public Pane graphViewPane; // Value injected by FXMLLoader
 
-    @FXML
-    void addVertex(MouseEvent event) {
-        viewModel.addVertex(event.getX(), event.getY());
-    }
-
+    
     @FXML
     void closeGraphEditor(ActionEvent event) {
 
@@ -177,30 +175,13 @@ public class JFXGraphEditorViewController extends AbstractViewController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-//        assert graphEditorView != null : "fx:id=\"graphEditorView\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert menuBar != null : "fx:id=\"menuBar\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert fileMenu != null : "fx:id=\"fileMenu\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert newGraphEditorMenuItem != null : "fx:id=\"newGraphEditorMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert saveGraphEditorMenuItem != null : "fx:id=\"saveGraphEditorMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert saveAsGraphEditor != null : "fx:id=\"saveAsGraphEditor\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert closeGraphEditorMenuItem != null : "fx:id=\"closeGraphEditorMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert exitGraphEditorMenuItem != null : "fx:id=\"exitGraphEditorMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert editMenu != null : "fx:id=\"editMenu\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert undoOperationMenuItem != null : "fx:id=\"undoOperationMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert redoOperationMenuItem != null : "fx:id=\"redoOperationMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert copyOperationMenuItem != null : "fx:id=\"copyOperationMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert cutOperationMenuItem != null : "fx:id=\"cutOperationMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert pasteOperationMenuItem != null : "fx:id=\"pasteOperationMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert selectAllOperationMenuItem != null : "fx:id=\"selectAllOperationMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert deleteOperationMenuItem != null : "fx:id=\"deleteOperationMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert settingsMenu != null : "fx:id=\"settingsMenu\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert showGridMenuItem != null : "fx:id=\"showGridMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert snapToGridMenuItem != null : "fx:id=\"snapToGridMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert connectionTypeMenuItem != null : "fx:id=\"connectionTypeMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert nodeTypeMenuItem != null : "fx:id=\"nodeTypeMenuItem\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert helpMenu != null : "fx:id=\"helpMenu\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert graphViewScrollPane != null : "fx:id=\"graphViewScrollPane\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
-//        assert graphViewPane != null : "fx:id=\"graphViewPane\" was not injected: check your FXML file 'JFXGraphEditorView.fxml'.";
+        
+        graphViewPane.addEventFilter(MouseEvent.MOUSE_CLICKED, (final MouseEvent mouseEvent) -> {
+            if (mouseEvent.getTarget() == graphViewPane) {
+                viewModel.addVertex(mouseEvent.getX(), mouseEvent.getY());
+                mouseEvent.consume();
+            }
+        });
 
     }
 }

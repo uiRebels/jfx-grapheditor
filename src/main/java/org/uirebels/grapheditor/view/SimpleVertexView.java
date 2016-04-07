@@ -80,7 +80,9 @@ public class SimpleVertexView extends AbstractVertexView {
         vertexCloseLabel.setOnMouseClicked((MouseEvent event) -> {
             event.consume();
             deleteVertex();
-        });       
+        });
+        bindPortLocations();
+        setMouseHandlers();
     }
 
     public Label getNameLabel() {

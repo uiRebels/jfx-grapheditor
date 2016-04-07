@@ -91,7 +91,8 @@ public class SimpleTaskViewModel extends AbstractViewModel {
             Logger.getLogger(SimpleTaskViewModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (edgeView != null) {
-            edgeView.setLineEndPoints(edgeView.getEndPoints(_vView1, _vView2));
+//            edgeView.setEndPoints(_vView1, _vView2);
+            edgeView.bindEndPoints(_vView1, _vView2);
             final AbstractEdge edge = contextModel.connect(v1, v2);
             edgeView.setUserData(edge);
             getGraphView().getChildren().add(edgeView);
