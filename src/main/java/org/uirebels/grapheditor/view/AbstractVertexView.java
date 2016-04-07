@@ -12,8 +12,6 @@ package org.uirebels.grapheditor.view;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
