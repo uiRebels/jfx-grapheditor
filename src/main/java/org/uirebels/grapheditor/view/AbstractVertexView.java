@@ -12,6 +12,7 @@ package org.uirebels.grapheditor.view;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Bounds;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
@@ -50,8 +51,17 @@ public abstract class AbstractVertexView extends Pane {
         outY.bind(layoutYProperty().add(Bindings.multiply(heightProperty(), 0.5)));
     }
 
+    private void unBindPortLocations(){
+        inX.unbind();
+        inY.unbind();
+        outX.unbind();
+        outY.unbind();
+    }
+
     protected void setMouseHandlers() {
+        
         setOnMousePressed((MouseEvent event) -> {
+            unBindPortLocations();
             dragDelta.x = getTranslateX() - event.getSceneX();
             dragDelta.y = getTranslateY() - event.getSceneY();
             event.consume();
@@ -63,11 +73,20 @@ public abstract class AbstractVertexView extends Pane {
             setTranslateX(newX);
             setTranslateY(newY);
             event.consume();
+            resetPortLocations();
         });
 
         setOnMouseReleased((MouseEvent event) -> {
             event.consume();
         });
+    }
+        
+    public void resetPortLocations(){
+        Bounds bounds = getBoundsInParent();
+        inX.set(bounds.getMinX());
+        inY.set(bounds.getMinY() + (getHeight() * 0.5));
+        outX.set(bounds.getMaxX());
+        outY.set(bounds.getMaxY() - (getHeight() * 0.5));
     }
     
     // records relative x and y co-ordinates.
