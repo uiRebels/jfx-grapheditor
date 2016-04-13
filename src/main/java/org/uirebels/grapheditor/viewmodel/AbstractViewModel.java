@@ -124,6 +124,13 @@ public abstract class AbstractViewModel {
 
     // ------------------------------------------------------------------------
     // following methods deal with the GraphEditor operations
+    //
+    // graph related ops
+    public abstract void newGraph();
+    public abstract void saveGraph();
+    public abstract void saveGraphAs(String _graphName);
+    //
+    // vertex related ops
     public abstract void addVertex(double x, double y);
     public abstract void editVertex(AbstractVertexView _vertexView);
     public abstract void connect(AbstractVertexView _vView1, AbstractVertexView _vView2);
@@ -137,6 +144,8 @@ public abstract class AbstractViewModel {
         contextModel.updateVertex(_vertex, _editedAttributes);
     }
 
+    //
+    // edge related ops
     public void deleteEdge(AbstractEdgeView _edgeView) {
         AbstractEdge edge = (AbstractEdge) _edgeView.getUserData();
         contextModel.deleteEdge(edge);

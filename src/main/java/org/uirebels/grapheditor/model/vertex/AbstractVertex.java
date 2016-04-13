@@ -5,11 +5,16 @@
  */
 package org.uirebels.grapheditor.model.vertex;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import org.apache.tinkerpop.gremlin.structure.Direction;
+import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
@@ -45,12 +50,12 @@ public abstract class AbstractVertex {
     }
 
     private void setVertexProperties() {
-        System.out.println("-----  Setting AbstractVertex properties ---------");
+//        System.out.println("-----  Setting AbstractVertex properties ---------");
         tinkerpopPropertyMap.keySet().stream().forEach((String key) -> {
-            System.out.print("Key: ");
-            System.out.println(key);
-            System.out.print("Value: ");
-            System.out.println(tinkerpopPropertyMap.get(key));
+//            System.out.print("Key: ");
+//            System.out.print(key);
+//            System.out.print("    Value: ");
+//            System.out.println(tinkerpopPropertyMap.get(key));
             vertex.property(key, tinkerpopPropertyMap.get(key));
         });
     }
@@ -79,13 +84,29 @@ public abstract class AbstractVertex {
     }
 
     public String getName() {
-        System.out.println(">>>>>>>>>>>>>>>>>> name is " + (String) tinkerpopPropertyMap.get(ConfigurationConstant.ELEMENT_NAME_KEY));
         return (String) tinkerpopPropertyMap.get(ConfigurationConstant.ELEMENT_NAME_KEY);
 //        return (String) vertex.value(ConfigurationConstant.ELEMENT_NAME_KEY);
     }
 
     public Vertex getVertex() {
         return vertex;
+    }
+
+    public List<Edge> getInEdges() {
+        return getEdges(Direction.IN);
+    }
+
+    public List<Edge> getOutEdges() {
+        return getEdges(Direction.OUT);
+    }
+    
+    private List<Edge> getEdges(Direction _dir) {
+        List<Edge> edgeList = new ArrayList<>();
+        Iterator<Edge> inIter = vertex.edges(_dir);
+        while (inIter.hasNext()) {
+            edgeList.add(inIter.next());
+        }
+        return edgeList;
     }
 
     public Map<String, Object> getPropertiesMap() {

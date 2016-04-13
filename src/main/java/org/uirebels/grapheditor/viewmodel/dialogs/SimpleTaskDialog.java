@@ -66,11 +66,11 @@ public class SimpleTaskDialog {
 
         Optional<String> response = dialog.showAndWait();
         if (response.toString().contains("OK")) {
-            System.out.println(" ***>>>> Fields are:");
+//            System.out.println(" ***>>>> Fields are:");
             Map<String, Object> editedAttrs = new HashMap<>();
             for (Node child : content.getChildrenUnmodifiable()) {
                 if (child instanceof TextField) {
-                    System.out.println(child.getUserData() + ":" + ((TextField) child).getText());
+//                    System.out.println(child.getUserData() + ":" + ((TextField) child).getText());
                     editedAttrs.put((String)child.getUserData(), ((TextField) child).getText());
                 }
             }
