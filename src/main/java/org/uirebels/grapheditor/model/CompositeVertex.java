@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.model.vertex;
+package org.uirebels.grapheditor.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import org.uirebels.grapheditor.constants.ConfigurationConstant;
  *
  * @author bnamestka
  */
-public abstract class AbstractVertex {
+public abstract class CompositeVertex {
 
     // only used by the subclass to initialize the tinkerpopPropertyMap
     protected static final HashMap<String, Object> ATTRIBUTE_MAP = new HashMap<>();
@@ -31,7 +31,7 @@ public abstract class AbstractVertex {
     private Vertex vertex;
     private final Map<String, Object> tinkerpopPropertyMap;
     // following is the javafx ObservableMap which contains the tinkerpop properties 
-    private final ObservableMap<String, Object> propertyMap;
+    private final ObservableMap<String, Object> observablePropertyMap;
 
     /**
      *
@@ -44,25 +44,21 @@ public abstract class AbstractVertex {
     /**
      *
      */
-    public AbstractVertex() {
+    public CompositeVertex() {
         tinkerpopPropertyMap = new HashMap<>(ATTRIBUTE_MAP);
-        propertyMap = FXCollections.observableMap(tinkerpopPropertyMap);
+        observablePropertyMap = FXCollections.observableMap(tinkerpopPropertyMap);
     }
 
-    private void setVertexProperties() {
-//        System.out.println("-----  Setting AbstractVertex properties ---------");
+    private void initializeVertexProperties() {
+//        System.out.println("-----  Setting CompositeVertex properties ---------");
         tinkerpopPropertyMap.keySet().stream().forEach((String key) -> {
-//            System.out.print("Key: ");
-//            System.out.print(key);
-//            System.out.print("    Value: ");
-//            System.out.println(tinkerpopPropertyMap.get(key));
             vertex.property(key, tinkerpopPropertyMap.get(key));
         });
     }
 
     public void initializeVertex(Vertex _vertex) {
         vertex = _vertex;
-        setVertexProperties();
+        initializeVertexProperties();
     }
 
     public void update(Map<String, Object> _attrMap) {
@@ -72,7 +68,7 @@ public abstract class AbstractVertex {
             // update tinkerpop vertex property
             if (vertexPropertyKeys.contains(propName)) {
                 VertexProperty vProp = vertex.property(propName, _attrMap.get(propName));
-                propertyMap.put(propName, _attrMap.get(propName));
+                observablePropertyMap.put(propName, _attrMap.get(propName));
             }
         }
     }
@@ -118,8 +114,8 @@ public abstract class AbstractVertex {
         return propMap;
     }
 
-    public ObservableMap<String, Object> getObservablePropertyMap() {
-        return propertyMap;
+    public ObservableMap<String, Object> getPropertiesAsObservableMap() {
+        return observablePropertyMap;
     }
 //
 //    /**
@@ -132,7 +128,7 @@ public abstract class AbstractVertex {
 //        try {
 //            jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(attributeMap);
 //        } catch (JsonProcessingException ex) {
-//            Logger.getLogger(AbstractVertex.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(CompositeVertex.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        return jsonString;
 //    }

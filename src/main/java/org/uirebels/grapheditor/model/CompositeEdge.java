@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.model.edge;
+package org.uirebels.grapheditor.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,7 @@ import org.uirebels.grapheditor.constants.ConfigurationConstant;
  *
  * @author bnamestka
  */
-public class AbstractEdge {
+public class CompositeEdge {
 
     // only used by the subclass to initialize the tinkerpopPropertyMap
     protected static final HashMap<String, Object> ATTRIBUTE_MAP = new HashMap<>();
@@ -26,7 +26,7 @@ public class AbstractEdge {
     private Edge edge;
     private Map<String, Object> tinkerpopPropertyMap = new HashMap<>();
     // following is the javafx ObservableMap which contains the tinkerpop properties 
-    private final ObservableMap<String, Object> propertyMap;
+    private final ObservableMap<String, Object> observablePropertyMap;
 
     /**
      *
@@ -35,12 +35,12 @@ public class AbstractEdge {
      * in sync.
      *
      */
-    public AbstractEdge() {
+    public CompositeEdge() {
         tinkerpopPropertyMap = new HashMap<>(ATTRIBUTE_MAP);
-        propertyMap = FXCollections.observableMap(tinkerpopPropertyMap);
+        observablePropertyMap = FXCollections.observableMap(tinkerpopPropertyMap);
     }
 
-    private void setEdgeProperties() {
+    private void initializeEdgeProperties() {
         tinkerpopPropertyMap.keySet().stream().forEach((key) -> {
             Property vProp = edge.property(key, tinkerpopPropertyMap.get(key));
         });
@@ -48,7 +48,7 @@ public class AbstractEdge {
 
     public void initializeEdge(Edge _edge) {
         edge = _edge;
-        setEdgeProperties();
+        initializeEdgeProperties();
     }
 
     public Edge getEdge() {
@@ -62,7 +62,7 @@ public class AbstractEdge {
             // update tinkerpop edge property
             if (propertyKeys.contains(propName)) {
                 Property prop = edge.property(propName, _attrMap.get(propName));
-                propertyMap.put(propName, _attrMap.get(propName));
+                observablePropertyMap.put(propName, _attrMap.get(propName));
             }
         }
     }
@@ -87,8 +87,8 @@ public class AbstractEdge {
         return propMap;
     }
 
-    public ObservableMap<String, Object> getObservablePropertyMap() {
-        return propertyMap;
+    public ObservableMap<String, Object> getPropertiesAsObservableMap() {
+        return observablePropertyMap;
     }
 
 }

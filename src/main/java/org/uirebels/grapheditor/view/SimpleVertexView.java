@@ -20,7 +20,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.uirebels.grapheditor.exceptions.VertexViewException;
-import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
 
 public class SimpleVertexView extends AbstractVertexView {
 
@@ -51,10 +50,6 @@ public class SimpleVertexView extends AbstractVertexView {
     private TextArea vertexTextArea; // Value injected by FXMLLoader
 
     public SimpleVertexView() throws VertexViewException {
-        this(null);
-    }
-
-    public SimpleVertexView(AbstractViewModel _viewModel) throws VertexViewException {
         URL fxmlURL = this.getClass().getResource(FXML_VIEW_PATH);
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(fxmlURL);
@@ -66,25 +61,23 @@ public class SimpleVertexView extends AbstractVertexView {
             exception.printStackTrace();
             throw new VertexViewException(FXML_VIEW_PATH);
         }
-        if (_viewModel != null) {
-            setViewModel(_viewModel);
-        }
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         vertexEditLabel.setOnMouseClicked((MouseEvent event) -> {
             event.consume();
-            editVertex();
+            graphController.editVertexProperties(this);
         });
         vertexCloseLabel.setOnMouseClicked((MouseEvent event) -> {
             event.consume();
-            deleteVertex();
+            graphController.deleteVertex(this);
         });
-        bindPortLocations();
+//        bindPortLocations();
         setMouseHandlers();
     }
 
+    // expose specific attributes
     public Label getNameLabel() {
         return vertexNameLabel;
     }

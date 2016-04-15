@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.viewmodel.dialogs;
+package org.uirebels.grapheditor.controller.dialogs;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
-import org.uirebels.grapheditor.model.vertex.AbstractVertex;
-import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
+import org.uirebels.grapheditor.model.CompositeVertex;
+import org.uirebels.grapheditor.controller.AbstractGraphController;
 
 /**
  *
@@ -26,7 +26,7 @@ import org.uirebels.grapheditor.viewmodel.AbstractViewModel;
  */
 public class SimpleTaskDialog {
 
-    public static void pop(AbstractViewModel _viewModel, AbstractVertex _vertex) {
+    public static void pop(CompositeVertex _vertex) {
 
         Dialog<String> dialog = new Dialog<>();
         final TextField txUserName = new TextField();
@@ -74,7 +74,7 @@ public class SimpleTaskDialog {
                     editedAttrs.put((String)child.getUserData(), ((TextField) child).getText());
                 }
             }
-            _viewModel.updateVertex(_vertex, editedAttrs);
+            _vertex.update(editedAttrs);
         }
 
     }

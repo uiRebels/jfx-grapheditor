@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.viewmodel;
+package org.uirebels.grapheditor.controller;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,21 +12,21 @@ import javafx.beans.binding.ObjectBinding;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.exceptions.EdgeViewException;
 import org.uirebels.grapheditor.exceptions.VertexViewException;
-import org.uirebels.grapheditor.model.SimpleTask;
-import org.uirebels.grapheditor.model.edge.AbstractEdge;
-import org.uirebels.grapheditor.model.vertex.AbstractVertex;
+import org.uirebels.grapheditor.model.SimpleTaskVertex;
+import org.uirebels.grapheditor.model.CompositeEdge;
+import org.uirebels.grapheditor.model.CompositeVertex;
 import org.uirebels.grapheditor.view.AbstractVertexView;
-import org.uirebels.grapheditor.view.SimpleEdgeView;
+import org.uirebels.grapheditor.view.SimplePolyEdgeView;
 import org.uirebels.grapheditor.view.SimpleVertexView;
-import org.uirebels.grapheditor.viewmodel.dialogs.SimpleTaskDialog;
+import org.uirebels.grapheditor.controller.dialogs.SimpleTaskDialog;
 
 /**
  *
  * @author bnamestka
  */
-public class SimpleTaskViewModel extends AbstractViewModel {
+public class SimpleTaskController extends AbstractGraphController {
 
-    public SimpleTaskViewModel() {
+    public SimpleTaskController() {
         super();
     }
 
@@ -38,61 +38,53 @@ public class SimpleTaskViewModel extends AbstractViewModel {
         try {
             vertexView = new SimpleVertexView();
         } catch (VertexViewException ex) {
-            Logger.getLogger(SimpleTaskViewModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SimpleTaskController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (vertexView != null) {
             vertexView.setLayoutX(x);
             vertexView.setLayoutY(y);
 
-            final AbstractVertex vertex = contextModel.addVertex(new SimpleTask());
+            final CompositeVertex vertex = graphModel.addVertex(new SimpleTaskVertex());
             vertexView.setUserData(vertex);
-            System.out.println("****>> Vertex name is " + vertex.getName());
             getGraphView().getChildren().add(vertexView);
 
-            if (getLastVertexView() != null) {
-                connect(getLastVertexView(), vertexView);
+            if (lastVertexView != null) {
+                connect(lastVertexView, vertexView);
             }
-            setLastVertexView(vertexView);
+            lastVertexView = vertexView;
         }
     }
 
-    @Override
-    public void deleteVertex(AbstractVertexView _vertexView) {
-        AbstractVertex vertex = (AbstractVertex) _vertexView.getUserData();
-        getGraphView().getChildren().remove(_vertexView);
-        vertex.delete();
-    }
 
     @Override
-    public void editVertex(AbstractVertexView _vertexView) {
-        AbstractVertex vertex = (AbstractVertex) _vertexView.getUserData();
+    public void editVertexProperties(AbstractVertexView _vertexView) {
+        CompositeVertex vertex = (CompositeVertex) _vertexView.getUserData();
         SimpleVertexView svView = (SimpleVertexView) _vertexView;
         // setup temporary bindings so that the dialog can get the changes 
-        // to the AbstractViewModel which changes the AbstractVertex 
-        // and those values are bound to the UI
-        ObjectBinding<Object> nameBinding = Bindings.valueAt(vertex.getObservablePropertyMap(), ConfigurationConstant.ELEMENT_NAME_KEY);
-        ObjectBinding<Object> descriptionBinding = Bindings.valueAt(vertex.getObservablePropertyMap(), "Description");
+        // to the CompositeVertex  and those values are bound to the JavaFX vertex view
+        ObjectBinding<Object> nameBinding = Bindings.valueAt(vertex.getPropertiesAsObservableMap(), ConfigurationConstant.ELEMENT_NAME_KEY);
+        ObjectBinding<Object> descriptionBinding = Bindings.valueAt(vertex.getPropertiesAsObservableMap(), "Description");
         svView.getNameLabel().textProperty().bind(nameBinding.asString());
         svView.getDescriptionTextArea().textProperty().bind(descriptionBinding.asString());
-        SimpleTaskDialog.pop(this, vertex);
+        SimpleTaskDialog.pop(vertex);
         svView.getNameLabel().textProperty().unbind();
         svView.getDescriptionTextArea().textProperty().unbind();
     }
 
     @Override
     public void connect(AbstractVertexView _vView1, AbstractVertexView _vView2) {
-        AbstractVertex v1 = (AbstractVertex) _vView1.getUserData();
-        AbstractVertex v2 = (AbstractVertex) _vView2.getUserData();
+        CompositeVertex v1 = (CompositeVertex) _vView1.getUserData();
+        CompositeVertex v2 = (CompositeVertex) _vView2.getUserData();
 
-        SimpleEdgeView edgeView = null;
+        SimplePolyEdgeView edgeView = null;
         try {
-            edgeView = new SimpleEdgeView();
+            edgeView = new SimplePolyEdgeView();
         } catch (EdgeViewException ex) {
-            Logger.getLogger(SimpleTaskViewModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SimpleTaskController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (edgeView != null) {
             edgeView.bindEndPoints(_vView1, _vView2);
-            final AbstractEdge edge = contextModel.connect(v1, v2);
+            final CompositeEdge edge = graphModel.connect(v1, v2);
             edgeView.setUserData(edge);
             getGraphView().getChildren().add(edgeView);
         }

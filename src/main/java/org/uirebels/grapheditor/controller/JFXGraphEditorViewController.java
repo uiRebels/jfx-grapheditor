@@ -3,9 +3,7 @@ package org.uirebels.grapheditor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -16,7 +14,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class JFXGraphEditorViewController extends AbstractViewController {
+public class JFXGraphEditorViewController {
+
+    private AbstractGraphController graphController;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -175,13 +175,19 @@ public class JFXGraphEditorViewController extends AbstractViewController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        
+       
         graphViewPane.addEventFilter(MouseEvent.MOUSE_CLICKED, (final MouseEvent mouseEvent) -> {
             if (mouseEvent.getTarget() == graphViewPane) {
-                viewModel.addVertex(mouseEvent.getX(), mouseEvent.getY());
+                graphController.addVertex(mouseEvent.getX(), mouseEvent.getY());
                 mouseEvent.consume();
             }
         });
 
     }
+    
+    public void setGraphController(AbstractGraphController _graphController) {
+        graphController = _graphController;
+        graphController.setGraphView(graphViewPane);
+    }
+
 }

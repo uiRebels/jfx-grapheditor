@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.uirebels.grapheditor.model.graph;
+package org.uirebels.grapheditor.model;
 
-import org.uirebels.grapheditor.model.vertex.AbstractVertex;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -22,17 +21,16 @@ import org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException;
 import org.apache.tinkerpop.shaded.jackson.databind.ObjectMapper;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.constants.StringConstant;
-import org.uirebels.grapheditor.model.edge.AbstractEdge;
 
 /**
  *
  * @author bnamestka
  */
-public class AbstractGraphModel {
+public class CompositeGraph {
 
     private static Graph GRAPH;
     private static Map<String, Object> graphAttributeMap = new HashMap<>();
-    private static AbstractVertex lastVertex;
+    private static CompositeVertex lastVertex;
 
     /**
      *
@@ -41,7 +39,7 @@ public class AbstractGraphModel {
      * in sync.
      *
      */
-    public AbstractGraphModel() {
+    public CompositeGraph() {
         GRAPH = createGraph();
     }
 
@@ -50,7 +48,7 @@ public class AbstractGraphModel {
      * @param _graphAttributeMap
      * @param _defaultAttributeMap
      */
-    public AbstractGraphModel(Map<String, Object> _graphAttributeMap) {
+    public CompositeGraph(Map<String, Object> _graphAttributeMap) {
         GRAPH = createGraph();
         setGraphAttributes(_graphAttributeMap);
     }
@@ -110,7 +108,7 @@ public class AbstractGraphModel {
         try {
             jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(graphAttributeMap);
         } catch (JsonProcessingException ex) {
-            Logger.getLogger(AbstractGraphModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CompositeGraph.class.getName()).log(Level.SEVERE, null, ex);
         }
         return jsonString;
     }
@@ -125,7 +123,7 @@ public class AbstractGraphModel {
         });
     }
 
-    public AbstractVertex getLastVertex() {
+    public CompositeVertex getLastVertex() {
         return lastVertex;
     }
 
@@ -134,7 +132,7 @@ public class AbstractGraphModel {
      * @param _vertexModel
      * @return
      */
-    public AbstractVertex addVertex(AbstractVertex _vertex) {
+    public CompositeVertex addVertex(CompositeVertex _vertex) {
         Vertex tinkerpopVertex = GRAPH.addVertex(T.label, _vertex.getName());
         _vertex.initializeVertex(tinkerpopVertex);
         lastVertex = _vertex;
@@ -146,25 +144,25 @@ public class AbstractGraphModel {
      * @param _vertex
      * @param _newProperties
      */
-    public void updateVertex(AbstractVertex _vertex, Map<String, Object> _newProperties) {
+    public void updateVertex(CompositeVertex _vertex, Map<String, Object> _newProperties) {
         _vertex.update(_newProperties);
     }
 
-    public void deleteVertex(AbstractVertex _vertex) {
+    public void deleteVertex(CompositeVertex _vertex) {
         _vertex.delete();
     }
 
-    public AbstractEdge connect(AbstractVertex _absV1, AbstractVertex _absV2) {
+    public CompositeEdge connect(CompositeVertex _absV1, CompositeVertex _absV2) {
         Vertex v1 = _absV1.getVertex();
         Vertex v2 = _absV2.getVertex();
         Edge tinkerpopEdge = v1.addEdge(StringConstant.NEXT, v2);
-//        AbstractEdge addedEdge = new AbstractEdge(tinkerpopEdge);
-        AbstractEdge addedEdge = new AbstractEdge();
+//        CompositeEdge addedEdge = new CompositeEdge(tinkerpopEdge);
+        CompositeEdge addedEdge = new CompositeEdge();
         addedEdge.initializeEdge(tinkerpopEdge);
         return addedEdge;
     }
 
-    public void deleteEdge(AbstractEdge _edge) {
+    public void deleteEdge(CompositeEdge _edge) {
         _edge.delete();
     }
 

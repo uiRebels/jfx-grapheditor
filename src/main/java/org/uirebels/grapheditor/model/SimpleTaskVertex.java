@@ -5,14 +5,13 @@
  */
 package org.uirebels.grapheditor.model;
 
-import org.uirebels.grapheditor.model.vertex.AbstractVertex;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 
 /**
  *
  * @author bnamestka
  */
-public class SimpleTask extends AbstractVertex {
+public class SimpleTaskVertex extends CompositeVertex {
 
     // user domain object attibutes
     static {
@@ -21,7 +20,7 @@ public class SimpleTask extends AbstractVertex {
         ATTRIBUTE_MAP.put("Description", "Simple description");
     }
 
-    public SimpleTask() {
+    public SimpleTaskVertex() {
         super();
     }
 
