@@ -12,10 +12,10 @@
          <menus>
             <Menu id="fileMenu" fx:id="fileMenu" mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem id="newGraphEditorMenuItem" fx:id="newGraphEditorMenuItem" mnemonicParsing="false" onAction="#newGraphEditor" text="New" />
-                  <MenuItem id="saveGraphEditorMenuItem" fx:id="saveGraphEditorMenuItem" onAction="#saveGraphEditor" text="Save" />
-                  <MenuItem id="saveAsGraphEditorMenuItem" fx:id="saveAsGraphEditor" mnemonicParsing="false" onAction="#saveAsGraphEditorMenuItem" text="SaveAs" />
-                  <MenuItem id="closeGraphEditorMenuItem" fx:id="closeGraphEditorMenuItem" mnemonicParsing="false" onAction="#closeGraphEditor" text="Close" />
+                  <MenuItem id="newGraphEditorMenuItem" fx:id="newGraphEditorMenuItem" mnemonicParsing="false" onAction="#newGraph" text="New" />
+                  <MenuItem id="saveGraphEditorMenuItem" fx:id="saveGraphEditorMenuItem" onAction="#saveGraph" text="Save" />
+                  <MenuItem id="saveAsGraphEditorMenuItem" fx:id="saveAsGraphEditorMenuItem" mnemonicParsing="false" onAction="#saveAsGraph" text="SaveAs" />
+                  <MenuItem id="closeGraphEditorMenuItem" fx:id="closeGraphEditorMenuItem" mnemonicParsing="false" onAction="#closeGraph" text="Close" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem id="exitGraphEditorMenuItem" fx:id="exitGraphEditorMenuItem" mnemonicParsing="false" onAction="#exitGraphEditor" text="Exit" />
                </items>

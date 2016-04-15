@@ -13,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.apache.tinkerpop.gremlin.structure.io.IoCore;
+import org.uirebels.grapheditor.controller.dialogs.SaveGraphAsDialog;
 import org.uirebels.grapheditor.model.CompositeGraph;
 
 public class JFXGraphEditorViewController {
@@ -41,8 +41,8 @@ public class JFXGraphEditorViewController {
     @FXML // fx:id="saveGraphEditorMenuItem"
     private MenuItem saveGraphEditorMenuItem; // Value injected by FXMLLoader
 
-    @FXML // fx:id="saveAsGraphEditor"
-    private MenuItem saveAsGraphEditor; // Value injected by FXMLLoader
+    @FXML // fx:id="saveAsGraphEditorMenuItem"
+    private MenuItem saveAsGraphEditorMenuItem; // Value injected by FXMLLoader
 
     @FXML // fx:id="closeGraphEditorMenuItem"
     private MenuItem closeGraphEditorMenuItem; // Value injected by FXMLLoader
@@ -99,7 +99,7 @@ public class JFXGraphEditorViewController {
     public Pane graphViewPane; // Value injected by FXMLLoader
 
     @FXML
-    void closeGraphEditor(ActionEvent event) {
+    void closeGraph(ActionEvent event) {
 
     }
 
@@ -130,7 +130,7 @@ public class JFXGraphEditorViewController {
     }
 
     @FXML
-    void newGraphEditor(ActionEvent event) {
+    void newGraph(ActionEvent event) {
 
     }
 
@@ -145,12 +145,13 @@ public class JFXGraphEditorViewController {
     }
 
     @FXML
-    void saveAsGraphEditorMenuItem(ActionEvent event) {
-
+    void saveAsGraph(ActionEvent event) {
+        SaveGraphAsDialog.pop(CompositeGraph.getGraphName());
+        graphController.saveGraphAs(CompositeGraph.getGraphName());
     }
 
     @FXML
-    void saveGraphEditor(ActionEvent event) {
+    void saveGraph(ActionEvent event) {
         graphController.saveGraph();
     }
 

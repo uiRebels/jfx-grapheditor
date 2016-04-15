@@ -9,11 +9,10 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Pane;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
+import org.uirebels.grapheditor.constants.StringConstant;
 import org.uirebels.grapheditor.model.CompositeGraph;
 import org.uirebels.grapheditor.model.CompositeEdge;
 import org.uirebels.grapheditor.model.CompositeVertex;
@@ -26,10 +25,6 @@ import org.uirebels.grapheditor.view.AbstractEdgeView;
  */
 public abstract class AbstractGraphController {
 
-//    protected  final ObjectProperty<Pane> graphViewProperty;
-//    protected  final ObjectProperty<AbstractVertexView> vertexViewProperty;
-//    protected  final ObjectProperty<AbstractVertexView> lastVertexViewProperty;
-//    protected  final ObjectProperty<AbstractEdgeView> edgeViewProperty;
     protected final CompositeGraph graphModel;
 
     protected Pane graphView;
@@ -37,14 +32,8 @@ public abstract class AbstractGraphController {
 
     public AbstractGraphController() {
         graphModel = new CompositeGraph();
-//        vertexViewProperty = new SimpleObjectProperty<>();
-//        lastVertexViewProperty = new SimpleObjectProperty<>();
-//        edgeViewProperty = new SimpleObjectProperty<>();
     }
 
-//    public CompositeGraph getContextModel() {
-//        return contextModel;
-//    }
     public Pane getGraphView() {
         return graphView;
     }
@@ -76,8 +65,15 @@ public abstract class AbstractGraphController {
         }
     }
 
-    public abstract void saveGraphAs(String _graphName);
-
+    public void saveGraphAs(String _graphName){
+        Graph graph = CompositeGraph.getGraph();
+        try {
+            graph.io(IoCore.graphson()).writeGraph(_graphName + StringConstant.DOT_JSON);
+        } catch (IOException ex) {
+            Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public abstract void addVertex(double x, double y);
 
     public abstract void editVertexProperties(AbstractVertexView _vertexView);
