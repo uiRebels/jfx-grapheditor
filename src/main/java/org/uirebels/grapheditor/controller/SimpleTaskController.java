@@ -97,11 +97,6 @@ public class SimpleTaskController extends AbstractGraphController {
     }
 
     @Override
-    public void saveGraph() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void saveGraphAs(String _graphName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

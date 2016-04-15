@@ -5,10 +5,15 @@
  */
 package org.uirebels.grapheditor.controller;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Pane;
+import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 import org.uirebels.grapheditor.model.CompositeGraph;
 import org.uirebels.grapheditor.model.CompositeEdge;
 import org.uirebels.grapheditor.model.CompositeVertex;
@@ -62,7 +67,14 @@ public abstract class AbstractGraphController {
     // graph related ops
     public abstract void newGraph();
 
-    public abstract void saveGraph();
+    public void saveGraph() {
+        Graph graph = CompositeGraph.getGraph();
+        try {
+            graph.io(IoCore.graphson()).writeGraph("my-tinkerpop-graph.json");
+        } catch (IOException ex) {
+            Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public abstract void saveGraphAs(String _graphName);
 

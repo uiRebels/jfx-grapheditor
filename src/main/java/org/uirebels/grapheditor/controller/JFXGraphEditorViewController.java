@@ -13,6 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.apache.tinkerpop.gremlin.structure.io.IoCore;
+import org.uirebels.grapheditor.model.CompositeGraph;
 
 public class JFXGraphEditorViewController {
 
@@ -96,7 +98,6 @@ public class JFXGraphEditorViewController {
     @FXML // fx:id="graphViewPane"
     public Pane graphViewPane; // Value injected by FXMLLoader
 
-    
     @FXML
     void closeGraphEditor(ActionEvent event) {
 
@@ -150,7 +151,7 @@ public class JFXGraphEditorViewController {
 
     @FXML
     void saveGraphEditor(ActionEvent event) {
-
+        graphController.saveGraph();
     }
 
     @FXML
@@ -175,7 +176,7 @@ public class JFXGraphEditorViewController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-       
+
         graphViewPane.addEventFilter(MouseEvent.MOUSE_CLICKED, (final MouseEvent mouseEvent) -> {
             if (mouseEvent.getTarget() == graphViewPane) {
                 graphController.addVertex(mouseEvent.getX(), mouseEvent.getY());
@@ -184,7 +185,7 @@ public class JFXGraphEditorViewController {
         });
 
     }
-    
+
     public void setGraphController(AbstractGraphController _graphController) {
         graphController = _graphController;
         graphController.setGraphView(graphViewPane);
