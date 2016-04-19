@@ -49,6 +49,20 @@ public abstract class CompositeVertex {
         observablePropertyMap = FXCollections.observableMap(tinkerpopPropertyMap);
     }
 
+    /**
+     *
+     * @param _vertex
+     */
+    // used to reconstitute from a saved tinkerpop vertex
+    public CompositeVertex(Vertex _vertex) {
+        vertex = _vertex;
+        tinkerpopPropertyMap = new HashMap<>();
+        for(String key : _vertex.keys()){
+            tinkerpopPropertyMap.put(key, vertex.value(key));
+        }
+        observablePropertyMap = FXCollections.observableMap(tinkerpopPropertyMap);
+    }
+
     private void initializeVertexProperties() {
 //        System.out.println("-----  Setting CompositeVertex properties ---------");
         tinkerpopPropertyMap.keySet().stream().forEach((String key) -> {

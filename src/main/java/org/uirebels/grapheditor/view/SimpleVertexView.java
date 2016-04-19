@@ -73,8 +73,12 @@ public class SimpleVertexView extends AbstractVertexView {
             event.consume();
             graphController.deleteVertex(this);
         });
+
 //        bindPortLocations();
-        setMouseHandlers();
+        
+        // until we have a proper vertex layout mechanism, suspend
+        // movement (ie. manual relocation of individual verticies
+//        setMouseHandlers();
     }
 
     // expose specific attributes

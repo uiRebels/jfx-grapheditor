@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
+import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.constants.StringConstant;
 import org.uirebels.grapheditor.model.CompositeGraph;
 import org.uirebels.grapheditor.model.CompositeEdge;
@@ -25,7 +27,7 @@ import org.uirebels.grapheditor.view.AbstractEdgeView;
  */
 public abstract class AbstractGraphController {
 
-    protected final CompositeGraph graphModel;
+    protected CompositeGraph graphModel;
 
     protected Pane graphView;
     protected AbstractVertexView lastVertexView;
@@ -50,31 +52,35 @@ public abstract class AbstractGraphController {
         lastVertexView = _vertexView;
     }
 
+    // find out where to place a new vertex
+    protected abstract Point2D getNextLocation();
+
     // ------------------------------------------------------------------------
     // following methods deal with the GraphEditor operations
     //
     // graph related ops
     public abstract void newGraph();
 
-    public void saveGraph() {
-        Graph graph = CompositeGraph.getGraph();
-        try {
-            graph.io(IoCore.graphson()).writeGraph("my-tinkerpop-graph.json");
-        } catch (IOException ex) {
-            Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void openGraph(String _graphName) {
+        graphModel = CompositeGraph.openGraph(_graphName);
+        reconstituteGraph();
     }
 
-    public void saveGraphAs(String _graphName){
-        Graph graph = CompositeGraph.getGraph();
-        try {
-            graph.io(IoCore.graphson()).writeGraph(_graphName + StringConstant.DOT_JSON);
-        } catch (IOException ex) {
-            Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void saveGraph() {
+        CompositeGraph.saveGraph();
     }
-    
+
+    public void saveGraphAs(String _graphName) {
+        CompositeGraph.saveGraphAs(_graphName);
+    }
+
+    public abstract void addVertex();
+
     public abstract void addVertex(double x, double y);
+
+    protected abstract void addVertexView(CompositeVertex _vertex);
+
+    protected abstract void addVertexView(CompositeVertex _vertex, double x, double y);
 
     public abstract void editVertexProperties(AbstractVertexView _vertexView);
 
@@ -101,5 +107,7 @@ public abstract class AbstractGraphController {
     public void updateVertex(CompositeVertex _vertex, Map<String, Object> _editedAttributes) {
         _vertex.update(_editedAttributes);
     }
+
+    public abstract void reconstituteGraph();
 
 }

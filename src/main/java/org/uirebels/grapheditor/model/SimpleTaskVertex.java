@@ -5,6 +5,7 @@
  */
 package org.uirebels.grapheditor.model;
 
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 
 /**
@@ -22,6 +23,10 @@ public class SimpleTaskVertex extends CompositeVertex {
 
     public SimpleTaskVertex() {
         super();
+    }
+
+    public SimpleTaskVertex(Vertex _vertex) {
+        super(_vertex);
     }
 
 }

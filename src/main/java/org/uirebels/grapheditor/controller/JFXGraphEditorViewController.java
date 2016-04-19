@@ -135,6 +135,11 @@ public class JFXGraphEditorViewController {
     }
 
     @FXML
+    void openGraph(ActionEvent event) {
+        graphController.openGraph("my-tinkerpop-graph");
+    }
+
+    @FXML
     void pasteOperation(ActionEvent event) {
 
     }
@@ -180,7 +185,10 @@ public class JFXGraphEditorViewController {
 
         graphViewPane.addEventFilter(MouseEvent.MOUSE_CLICKED, (final MouseEvent mouseEvent) -> {
             if (mouseEvent.getTarget() == graphViewPane) {
-                graphController.addVertex(mouseEvent.getX(), mouseEvent.getY());
+                // placement at mouse click location
+//                graphController.addVertex(mouseEvent.getX(), mouseEvent.getY());
+                // placement thru simple layout algoritm
+                graphController.addVertex();
                 mouseEvent.consume();
             }
         });

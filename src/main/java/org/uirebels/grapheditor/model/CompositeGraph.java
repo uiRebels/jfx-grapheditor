@@ -5,7 +5,11 @@
  */
 package org.uirebels.grapheditor.model;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -15,12 +19,14 @@ import org.apache.tinkerpop.gremlin.structure.Element;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.T;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
+import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 import org.apache.tinkerpop.gremlin.structure.util.ElementHelper;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException;
 import org.apache.tinkerpop.shaded.jackson.databind.ObjectMapper;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.constants.StringConstant;
+import org.uirebels.grapheditor.controller.AbstractGraphController;
 
 /**
  *
@@ -62,7 +68,7 @@ public class CompositeGraph {
         return graphAttributeMap;
     }
 
-    public final Graph createGraph() {
+    public static final Graph createGraph() {
         Graph g = null;
         switch (ConfigurationConstant.GRAPH_TYPE) {
             case TINKERGRAPH:
@@ -76,9 +82,32 @@ public class CompositeGraph {
         return g;
     }
 
-//    public final Graph openGraph(String _name){     }    
-//    public final void saveGraph(){      }
-//    public final void saveGraphAs(String _name){      }
+    public static CompositeGraph openGraph(String _graphName) {
+        CompositeGraph newGraph = new CompositeGraph();
+       try {
+            GRAPH.io(IoCore.graphson()).readGraph(ConfigurationConstant.DATA_PATH + _graphName + StringConstant.DOT_JSON);
+        } catch (IOException ex) {
+            Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return newGraph;
+    }
+
+    public static void saveGraph() {
+        try {
+            GRAPH.io(IoCore.graphson()).writeGraph(ConfigurationConstant.DATA_PATH + getGraphName() + StringConstant.DOT_JSON);
+        } catch (IOException ex) {
+            Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void saveGraphAs(String _graphName) {
+        try {
+            GRAPH.io(IoCore.graphson()).writeGraph(ConfigurationConstant.DATA_PATH + _graphName + StringConstant.DOT_JSON);
+        } catch (IOException ex) {
+            Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 //    public final void closeGraph(){   }
 //    public final void deleteGraph(){   }
     
@@ -96,6 +125,15 @@ public class CompositeGraph {
 
     public static void setGraphName(String _name) {
         GRAPH.variables().set(ConfigurationConstant.ELEMENT_NAME_KEY, _name);
+    }
+
+    public static List<Vertex> getGraphVertices() {
+        List<Vertex> vertexList = new ArrayList<>();
+        Iterator<Vertex> vIter = GRAPH.vertices();
+        while (vIter.hasNext()) {
+            vertexList.add(vIter.next());
+        }
+        return vertexList;
     }
 
     /**

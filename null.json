@@ -1,2 +1,0 @@
-{"id":0,"label":"Task Name","outE":{"next":[{"id":6,"inV":3}]},"properties":{"Description":[{"id":1,"value":"Simple description"}],"Name":[{"id":2,"value":"Task Name"}]}}
-{"id":3,"label":"Task Name","inE":{"next":[{"id":6,"outV":0}]},"properties":{"Description":[{"id":4,"value":"Simple description"}],"Name":[{"id":5,"value":"Task Name"}]}}

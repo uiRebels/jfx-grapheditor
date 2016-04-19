@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Property;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 
 /**
@@ -37,6 +38,20 @@ public class CompositeEdge {
      */
     public CompositeEdge() {
         tinkerpopPropertyMap = new HashMap<>(ATTRIBUTE_MAP);
+        observablePropertyMap = FXCollections.observableMap(tinkerpopPropertyMap);
+    }
+
+    /**
+     *
+     * @param _edge
+     */
+    // used to reconstitute from a saved tinkerpop edge
+    public CompositeEdge(Edge _edge) {
+        edge = _edge;
+        tinkerpopPropertyMap = new HashMap<>();
+        for(String key : _edge.keys()){
+            tinkerpopPropertyMap.put(key, edge.value(key));
+        }
         observablePropertyMap = FXCollections.observableMap(tinkerpopPropertyMap);
     }
 

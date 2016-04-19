@@ -13,6 +13,7 @@
             <Menu id="fileMenu" fx:id="fileMenu" mnemonicParsing="false" text="File">
                <items>
                   <MenuItem id="newGraphEditorMenuItem" fx:id="newGraphEditorMenuItem" mnemonicParsing="false" onAction="#newGraph" text="New" />
+                  <MenuItem id="openGraphEditorMenuItem" fx:id="openGraphEditorMenuItem" mnemonicParsing="false" onAction="#openGraph" text="Open" />
                   <MenuItem id="saveGraphEditorMenuItem" fx:id="saveGraphEditorMenuItem" onAction="#saveGraph" text="Save" />
                   <MenuItem id="saveAsGraphEditorMenuItem" fx:id="saveAsGraphEditorMenuItem" mnemonicParsing="false" onAction="#saveAsGraph" text="SaveAs" />
                   <MenuItem id="closeGraphEditorMenuItem" fx:id="closeGraphEditorMenuItem" mnemonicParsing="false" onAction="#closeGraph" text="Close" />
