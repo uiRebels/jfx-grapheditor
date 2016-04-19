@@ -100,7 +100,7 @@ public class SimpleTaskController extends AbstractGraphController {
 
             vertexView.setUserData(_vertex);
             graphView.getChildren().add(vertexView);
-
+            graphView.layout();
             if (lastVertexView != null) {
                 connectVertexViews(lastVertexView, vertexView);
             }
@@ -138,7 +138,8 @@ public class SimpleTaskController extends AbstractGraphController {
             edgeView.bindEndPoints(_vView1, _vView2);
             final CompositeEdge edge = graphModel.connect(v1, v2);
             edgeView.setUserData(edge);
-            getGraphView().getChildren().add(edgeView);
+            graphView.getChildren().add(edgeView);
+            
         }
 
     }
@@ -157,7 +158,8 @@ public class SimpleTaskController extends AbstractGraphController {
             edgeView.bindEndPoints(_vView1, _vView2);
             Edge outEdge = v1.getOutEdges().get(0);
             edgeView.setUserData(outEdge);
-            getGraphView().getChildren().add(edgeView);
+            graphView.getChildren().add(edgeView);
+            graphView.layout();
         }
     }
 

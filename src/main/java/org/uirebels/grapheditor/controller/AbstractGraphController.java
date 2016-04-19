@@ -5,16 +5,19 @@
  */
 package org.uirebels.grapheditor.controller;
 
-import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
-import org.apache.tinkerpop.gremlin.structure.Graph;
-import org.apache.tinkerpop.gremlin.structure.io.IoCore;
-import org.uirebels.grapheditor.constants.ConfigurationConstant;
-import org.uirebels.grapheditor.constants.StringConstant;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.uirebels.grapheditor.model.CompositeGraph;
 import org.uirebels.grapheditor.model.CompositeEdge;
 import org.uirebels.grapheditor.model.CompositeVertex;
@@ -34,6 +37,10 @@ public abstract class AbstractGraphController {
 
     public AbstractGraphController() {
         graphModel = new CompositeGraph();
+    }
+
+    public CompositeGraph getGraphModel() {
+        return graphModel;
     }
 
     public Pane getGraphView() {
@@ -67,11 +74,11 @@ public abstract class AbstractGraphController {
     }
 
     public void saveGraph() {
-        CompositeGraph.saveGraph();
+        saveGraphTask(null);
     }
 
     public void saveGraphAs(String _graphName) {
-        CompositeGraph.saveGraphAs(_graphName);
+        saveGraphTask(_graphName);
     }
 
     public abstract void addVertex();
@@ -109,5 +116,51 @@ public abstract class AbstractGraphController {
     }
 
     public abstract void reconstituteGraph();
+
+    private void saveGraphTask(final String _graphName) {
+        final double wndwWidth = 300.0d;
+        Label updateLabel = null;
+        if (_graphName == null) {
+            updateLabel = new Label("Saving graph...");
+        } else {
+            updateLabel = new Label("Saving " + _graphName + " ...");
+        }
+        updateLabel.setPrefWidth(wndwWidth);
+        ProgressBar progress = new ProgressBar();
+        progress.setPrefWidth(wndwWidth);
+
+        VBox updatePane = new VBox();
+        updatePane.setPadding(new Insets(10));
+        updatePane.setSpacing(5.0d);
+        updatePane.getChildren().addAll(updateLabel, progress);
+
+        Stage taskUpdateStage = new Stage(StageStyle.UTILITY);
+        taskUpdateStage.setScene(new Scene(updatePane));
+        taskUpdateStage.show();
+
+        Task saveTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Thread.sleep(1000);
+                if (_graphName == null) {
+                    CompositeGraph.saveGraph();
+                } else {
+                    CompositeGraph.saveGraphAs(_graphName);
+                }
+                // Return null at the end of a Task of type Void
+                return null;
+            }
+        };
+
+        saveTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                taskUpdateStage.hide();
+            }
+        });
+
+        taskUpdateStage.show();
+        new Thread(saveTask).start();
+    }
 
 }

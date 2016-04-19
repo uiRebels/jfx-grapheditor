@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.uirebels.grapheditor.controller.dialogs.SaveGraphAsDialog;
+import org.uirebels.grapheditor.controller.dialogs.SaveGraphSystemFileDialog;
 import org.uirebels.grapheditor.model.CompositeGraph;
 
 public class JFXGraphEditorViewController {
@@ -151,13 +152,20 @@ public class JFXGraphEditorViewController {
 
     @FXML
     void saveAsGraph(ActionEvent event) {
+//        SaveGraphSystemFileDialog.pop(graphController);
         SaveGraphAsDialog.pop(CompositeGraph.getGraphName());
         graphController.saveGraphAs(CompositeGraph.getGraphName());
     }
 
     @FXML
     void saveGraph(ActionEvent event) {
-        graphController.saveGraph();
+        String graphName = graphController.graphModel.getGraphName();
+        if (graphName == null) {
+            SaveGraphAsDialog.pop(CompositeGraph.getGraphName());
+            graphController.saveGraphAs(CompositeGraph.getGraphName());
+        } else {
+            graphController.saveGraph();
+        }
     }
 
     @FXML
