@@ -23,7 +23,7 @@ import org.uirebels.grapheditor.model.CompositeVertex;
  *
  * @author bnamestka
  */
-public class SimpleTaskDialog {
+public class JFXEditorPropertiesDialog {
 
     public static void pop(CompositeVertex _vertex) {
 

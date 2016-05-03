@@ -21,9 +21,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.uirebels.grapheditor.exceptions.VertexViewException;
 
-public class SimpleVertexView extends AbstractVertexView {
+public class SimpleTaskVertexView extends AbstractVertexView {
 
-    private static final String FXML_VIEW_PATH = "/fxml/SimpleVertexView.fxml";
+    private static final String FXML_VIEW_PATH = "/fxml/SimpleTaskVertexView.fxml";
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -49,7 +49,7 @@ public class SimpleVertexView extends AbstractVertexView {
     @FXML // fx:id="vertexTextArea"
     private TextArea vertexTextArea; // Value injected by FXMLLoader
 
-    public SimpleVertexView() throws VertexViewException {
+    public SimpleTaskVertexView() throws VertexViewException {
         URL fxmlURL = this.getClass().getResource(FXML_VIEW_PATH);
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(fxmlURL);

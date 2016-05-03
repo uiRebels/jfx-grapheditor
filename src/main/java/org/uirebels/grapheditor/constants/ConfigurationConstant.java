@@ -11,6 +11,8 @@ package org.uirebels.grapheditor.constants;
  */
 public class ConfigurationConstant {
 
+    public static final String PROPERTY_FILENAME = "jfxeditor.properties";;
+
     // Enum of Tinkerpop Graph Providers
     public enum GraphType {
         TINKERGRAPH,
@@ -21,7 +23,6 @@ public class ConfigurationConstant {
     public static final GraphType GRAPH_TYPE = GraphType.TINKERGRAPH;
     
     public static final String ELEMENT_NAME_KEY = "Name";
-//    public static final String DATA_PATH = "data/";
     public static final String DATA_PATH = "/Users/bnamestka/graphs/";
     
 }

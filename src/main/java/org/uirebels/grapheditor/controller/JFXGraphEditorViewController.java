@@ -1,6 +1,10 @@
 package org.uirebels.grapheditor.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,13 +17,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.uirebels.grapheditor.constants.ConfigurationConstant;
+import org.uirebels.grapheditor.constants.StringConstant;
 import org.uirebels.grapheditor.controller.dialogs.SaveGraphAsDialog;
-import org.uirebels.grapheditor.controller.dialogs.SaveGraphSystemFileDialog;
 import org.uirebels.grapheditor.model.CompositeGraph;
+import org.uirebels.grapheditor.utils.GraphDumper;
 
 public class JFXGraphEditorViewController {
 
     private AbstractGraphController graphController;
+    private Properties editorProperties;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -101,6 +108,7 @@ public class JFXGraphEditorViewController {
 
     @FXML
     void closeGraph(ActionEvent event) {
+        GraphDumper.dump();
 
     }
 
@@ -155,6 +163,7 @@ public class JFXGraphEditorViewController {
 //        SaveGraphSystemFileDialog.pop(graphController);
         SaveGraphAsDialog.pop(CompositeGraph.getGraphName());
         graphController.saveGraphAs(CompositeGraph.getGraphName());
+        setStageTitle(CompositeGraph.getGraphName() + StringConstant.SPACE + StringConstant.GRAPH);
     }
 
     @FXML
@@ -166,6 +175,7 @@ public class JFXGraphEditorViewController {
         } else {
             graphController.saveGraph();
         }
+        setStageTitle(CompositeGraph.getGraphName() + StringConstant.SPACE + StringConstant.GRAPH);
     }
 
     @FXML
@@ -191,6 +201,7 @@ public class JFXGraphEditorViewController {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
 
+        setJFXEditorProperties();
         graphViewPane.addEventFilter(MouseEvent.MOUSE_CLICKED, (final MouseEvent mouseEvent) -> {
             if (mouseEvent.getTarget() == graphViewPane) {
                 // placement at mouse click location
@@ -206,6 +217,30 @@ public class JFXGraphEditorViewController {
     public void setGraphController(AbstractGraphController _graphController) {
         graphController = _graphController;
         graphController.setGraphView(graphViewPane);
+        graphController.setSavePath(editorProperties.getProperty(StringConstant.SAVE_PATH));
+    }
+
+    private void setStageTitle(String _stageName) {
+        Stage mainStage = (Stage) graphEditorView.getScene().getWindow();
+        mainStage.setTitle(_stageName);
+    }
+
+    private void setJFXEditorProperties() {
+        String currentDirectory = System.getProperty(StringConstant.USER_DIR);
+        try (InputStream in = new FileInputStream(currentDirectory + StringConstant.SLASH + ConfigurationConstant.PROPERTY_FILENAME)) {
+            editorProperties = new Properties();
+            editorProperties.load(in);
+
+//            System.out.println("####Properties.stringPropertyNames usage####");
+//            for (String property : prop.stringPropertyNames()) {
+//                String value = prop.getProperty(property);
+//                System.out.println(property + "=" + value);
+//            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.out.println();
     }
 
 }

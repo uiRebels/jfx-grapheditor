@@ -21,10 +21,9 @@ import org.uirebels.grapheditor.model.CompositeEdge;
 import org.uirebels.grapheditor.model.CompositeVertex;
 import org.uirebels.grapheditor.view.AbstractVertexView;
 import org.uirebels.grapheditor.view.SimplePolyEdgeView;
-import org.uirebels.grapheditor.view.SimpleVertexView;
+import org.uirebels.grapheditor.view.SimpleTaskVertexView;
 import org.uirebels.grapheditor.controller.dialogs.SimpleTaskDialog;
 import org.uirebels.grapheditor.model.CompositeGraph;
-import org.uirebels.grapheditor.utils.GraphDumper;
 
 /**
  *
@@ -39,6 +38,7 @@ public class SimpleTaskController extends AbstractGraphController {
 
     public SimpleTaskController() {
         super();
+        
     }
 
     // ------------------------------------------------------------------------
@@ -55,9 +55,9 @@ public class SimpleTaskController extends AbstractGraphController {
 
     @Override
     public void addVertex(double x, double y) {
-        SimpleVertexView vertexView = null;
+        SimpleTaskVertexView vertexView = null;
         try {
-            vertexView = new SimpleVertexView();
+            vertexView = new SimpleTaskVertexView();
         } catch (VertexViewException ex) {
             Logger.getLogger(SimpleTaskController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -88,9 +88,9 @@ public class SimpleTaskController extends AbstractGraphController {
 
     @Override
     protected void addVertexView(CompositeVertex _vertex, double x, double y) {
-        SimpleVertexView vertexView = null;
+        SimpleTaskVertexView vertexView = null;
         try {
-            vertexView = new SimpleVertexView();
+            vertexView = new SimpleTaskVertexView();
         } catch (VertexViewException ex) {
             Logger.getLogger(SimpleTaskController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -111,7 +111,7 @@ public class SimpleTaskController extends AbstractGraphController {
     @Override
     public void editVertexProperties(AbstractVertexView _vertexView) {
         CompositeVertex vertex = (CompositeVertex) _vertexView.getUserData();
-        SimpleVertexView svView = (SimpleVertexView) _vertexView;
+        SimpleTaskVertexView svView = (SimpleTaskVertexView) _vertexView;
         // setup temporary bindings so that the dialog can get the changes 
         // to the CompositeVertex  and those values are bound to the JavaFX vertex view
         ObjectBinding<Object> nameBinding = Bindings.valueAt(vertex.getPropertiesAsObservableMap(), ConfigurationConstant.ELEMENT_NAME_KEY);
@@ -163,11 +163,11 @@ public class SimpleTaskController extends AbstractGraphController {
         }
     }
 
-    @Override
-    public void newGraph() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+//    @Override
+//    public void newGraph() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
     @Override
     protected Point2D getNextLocation() {
         System.out.println("GraphView width is : " + graphView.getWidth());

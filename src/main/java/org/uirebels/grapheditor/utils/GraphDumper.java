@@ -22,6 +22,13 @@ public class GraphDumper {
         try {
             Graph graph = CompositeGraph.getGraph();
             graph.io(IoCore.graphml()).writeGraph("tinkerpop-out.xml");
+            graph.io(IoCore.graphson()).writeGraph("tinkerpop-modern.json");
+            //
+//            GraphTraversalSource traversal = graph.traversal();
+//            FileOutputStream f = new FileOutputStream("embedded_class-tinkerpop-modern.json");
+//            GraphSONMapper mapper = graph.io(graphson()).mapper().embedTypes(true).create();
+//            graph.io(graphson()).writer().mapper(mapper).create().writeGraph(f, graph);
+//            f.close();
         } catch (IOException ex) {
             Logger.getLogger(GraphDumper.class.getName()).log(Level.SEVERE, null, ex);
         }

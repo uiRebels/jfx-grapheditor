@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Element;
 import org.apache.tinkerpop.gremlin.structure.Graph;
@@ -35,8 +37,9 @@ import org.uirebels.grapheditor.controller.AbstractGraphController;
 public class CompositeGraph {
 
     private static Graph GRAPH;
-    private static Map<String, Object> graphAttributeMap = new HashMap<>();
     private static CompositeVertex lastVertex;
+    // following is the javafx ObservableMap which contains the tinkerpop properties 
+    private final ObservableMap<String, Object> observablePropertyMap;
 
     /**
      *
@@ -46,26 +49,33 @@ public class CompositeGraph {
      *
      */
     public CompositeGraph() {
-        GRAPH = createGraph();
+        this(null);
     }
 
     /**
      *
      * @param _graphAttributeMap
-     * @param _defaultAttributeMap
      */
     public CompositeGraph(Map<String, Object> _graphAttributeMap) {
         GRAPH = createGraph();
-        setGraphAttributes(_graphAttributeMap);
+        observablePropertyMap = FXCollections.observableHashMap();
+        if (_graphAttributeMap != null) {
+            setGraphAttributes(_graphAttributeMap);
+        }
     }
 
-    public Map<String, Object> setGraphAttributes(Map<String, Object> _graphAttributeMap) {
-        graphAttributeMap.clear();
+    public void setGraphAttribute(String _key, Object _attribute) {
+        GRAPH.variables().set(_key, _attribute);
+        observablePropertyMap.put(_key, _attribute);
+    }
+
+    public final void setGraphAttributes(Map<String, Object> _graphAttributeMap) {
+        observablePropertyMap.clear();
+        clearTinkerpopProperties();
         _graphAttributeMap.keySet().stream().forEach((key) -> {
-            graphAttributeMap.put(key, _graphAttributeMap.get(key));
+            observablePropertyMap.put(key, _graphAttributeMap.get(key));
             GRAPH.variables().set(key, _graphAttributeMap.get(key));
         });
-        return graphAttributeMap;
     }
 
     public static final Graph createGraph() {
@@ -84,25 +94,25 @@ public class CompositeGraph {
 
     public static CompositeGraph openGraph(String _graphName) {
         CompositeGraph newGraph = new CompositeGraph();
-       try {
+        try {
             GRAPH.io(IoCore.graphson()).readGraph(ConfigurationConstant.DATA_PATH + _graphName + StringConstant.DOT_JSON);
         } catch (IOException ex) {
             Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
         }
-       return newGraph;
+        return newGraph;
     }
 
-    public static void saveGraph() {
+    public static void saveGraph(String _dirPath) {
         try {
-            GRAPH.io(IoCore.graphson()).writeGraph(ConfigurationConstant.DATA_PATH + getGraphName() + StringConstant.DOT_JSON);
+            GRAPH.io(IoCore.graphson()).writeGraph(_dirPath + StringConstant.SLASH + getGraphName() + StringConstant.DOT_JSON);
         } catch (IOException ex) {
             Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static void saveGraphAs(String _graphName) {
+    public static void saveGraphAs(String _dirPath, String _graphName) {
         try {
-            GRAPH.io(IoCore.graphson()).writeGraph(ConfigurationConstant.DATA_PATH + _graphName + StringConstant.DOT_JSON);
+            GRAPH.io(IoCore.graphson()).writeGraph(_dirPath + StringConstant.SLASH + _graphName + StringConstant.DOT_JSON);
         } catch (IOException ex) {
             Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -110,7 +120,6 @@ public class CompositeGraph {
 
 //    public final void closeGraph(){   }
 //    public final void deleteGraph(){   }
-    
     public static Graph getGraph() {
         return GRAPH;
     }
@@ -140,16 +149,16 @@ public class CompositeGraph {
      *
      * @return
      */
-    public String getJsonString() {
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonString = null;
-        try {
-            jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(graphAttributeMap);
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(CompositeGraph.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return jsonString;
-    }
+//    public String getJsonString() {
+//        ObjectMapper mapper = new ObjectMapper();
+//        String jsonString = null;
+//        try {
+//            jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(graphAttributeMap);
+//        } catch (JsonProcessingException ex) {
+//            Logger.getLogger(CompositeGraph.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return jsonString;
+//    }
 
     public Map<String, Object> getProperties(Element _element) {
         return ElementHelper.propertyValueMap(_element);
@@ -213,5 +222,12 @@ public class CompositeGraph {
             }
         }
         return _edge;
+    }
+
+    private void clearTinkerpopProperties() {
+        Set<String> keys = GRAPH.variables().keys();
+        for (String key : keys) {
+            GRAPH.variables().remove(key);
+        }
     }
 }

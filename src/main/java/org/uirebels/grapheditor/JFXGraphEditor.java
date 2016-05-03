@@ -9,11 +9,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.uirebels.grapheditor.controller.JFXGraphEditorViewController;
-import org.uirebels.grapheditor.view.SimpleVertexView;
+import org.uirebels.grapheditor.view.SimpleTaskVertexView;
 import org.uirebels.grapheditor.controller.SimpleTaskController;
 import org.uirebels.grapheditor.controller.AbstractGraphController;
 import org.uirebels.grapheditor.view.SimplePolyEdgeView;
 import static javafx.application.Application.launch;
+import org.uirebels.grapheditor.constants.StringConstant;
 
 public class JFXGraphEditor extends Application {
 
@@ -21,6 +22,8 @@ public class JFXGraphEditor extends Application {
     public void start(Stage stage) throws Exception {
 
         AbstractGraphController graphController = new SimpleTaskController();
+        graphController.newGraph();
+        graphController.setGraphAttribute(StringConstant.GRAPH_TYPE, "SimpleTask");
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/JFXGraphEditorView.fxml"));
         Parent root = loader.load();
@@ -28,7 +31,7 @@ public class JFXGraphEditor extends Application {
         JFXGraphEditorViewController mainController = loader.<JFXGraphEditorViewController>getController();
         mainController.setGraphController(graphController);
 
-        SimpleVertexView.setGraphController(graphController);
+        SimpleTaskVertexView.setGraphController(graphController);
         SimplePolyEdgeView.setGraphController(graphController);
 
         Scene scene = new Scene(root);

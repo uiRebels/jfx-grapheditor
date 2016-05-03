@@ -31,18 +31,21 @@ import org.uirebels.grapheditor.view.AbstractEdgeView;
 public abstract class AbstractGraphController {
 
     protected CompositeGraph graphModel;
+    protected String graphSaveDirectory;
 
     protected Pane graphView;
     protected AbstractVertexView lastVertexView;
 
-    public AbstractGraphController() {
-        graphModel = new CompositeGraph();
-    }
+    public AbstractGraphController() {    }
 
     public CompositeGraph getGraphModel() {
         return graphModel;
     }
 
+    public void setGraphAttribute(String _key, Object _attribute){
+        graphModel.setGraphAttribute(_key, _attribute);
+    }
+    
     public Pane getGraphView() {
         return graphView;
     }
@@ -66,7 +69,9 @@ public abstract class AbstractGraphController {
     // following methods deal with the GraphEditor operations
     //
     // graph related ops
-    public abstract void newGraph();
+    public void newGraph(){
+        graphModel = new CompositeGraph();
+    }
 
     public void openGraph(String _graphName) {
         graphModel = CompositeGraph.openGraph(_graphName);
@@ -143,9 +148,9 @@ public abstract class AbstractGraphController {
             protected Void call() throws Exception {
                 Thread.sleep(1000);
                 if (_graphName == null) {
-                    CompositeGraph.saveGraph();
+                    CompositeGraph.saveGraph(graphSaveDirectory);
                 } else {
-                    CompositeGraph.saveGraphAs(_graphName);
+                    CompositeGraph.saveGraphAs(graphSaveDirectory, _graphName);
                 }
                 // Return null at the end of a Task of type Void
                 return null;
@@ -161,6 +166,10 @@ public abstract class AbstractGraphController {
 
         taskUpdateStage.show();
         new Thread(saveTask).start();
+    }
+
+    void setSavePath(String _filePath) {
+        graphSaveDirectory = _filePath;
     }
 
 }
