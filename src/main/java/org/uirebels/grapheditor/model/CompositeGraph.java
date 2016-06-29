@@ -24,8 +24,6 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
 import org.apache.tinkerpop.gremlin.structure.util.ElementHelper;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
-import org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException;
-import org.apache.tinkerpop.shaded.jackson.databind.ObjectMapper;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.constants.StringConstant;
 import org.uirebels.grapheditor.controller.AbstractGraphController;
@@ -92,10 +90,13 @@ public class CompositeGraph {
         return g;
     }
 
-    public static CompositeGraph openGraph(String _graphName) {
+    public static CompositeGraph openGraph(String _graphFilePath) {
         CompositeGraph newGraph = new CompositeGraph();
         try {
-            GRAPH.io(IoCore.graphson()).readGraph(ConfigurationConstant.DATA_PATH + _graphName + StringConstant.DOT_JSON);
+            GRAPH.io(IoCore.graphson()).readGraph(_graphFilePath);
+            int firstCharPos = _graphFilePath.lastIndexOf(StringConstant.SLASH) + 1;
+            int lastCharPos = _graphFilePath.indexOf(StringConstant.DOT);
+            setGraphName(_graphFilePath.substring(firstCharPos, lastCharPos));
         } catch (IOException ex) {
             Logger.getLogger(AbstractGraphController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -180,7 +181,7 @@ public class CompositeGraph {
      * @return
      */
     public CompositeVertex addVertex(CompositeVertex _vertex) {
-        Vertex tinkerpopVertex = GRAPH.addVertex(T.label, _vertex.getName());
+        Vertex tinkerpopVertex = GRAPH.addVertex(T.label, _vertex.getClass().getSimpleName());
         _vertex.initializeVertex(tinkerpopVertex);
         lastVertex = _vertex;
         return _vertex;

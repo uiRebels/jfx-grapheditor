@@ -73,9 +73,9 @@ public abstract class AbstractGraphController {
         graphModel = new CompositeGraph();
     }
 
-    public void openGraph(String _graphName) {
-        graphModel = CompositeGraph.openGraph(_graphName);
-        reconstituteGraph();
+    public void openGraph(String _graphFilePath) {
+        graphModel = CompositeGraph.openGraph(_graphFilePath);
+        reconstituteGraphView();
     }
 
     public void saveGraph() {
@@ -86,13 +86,13 @@ public abstract class AbstractGraphController {
         saveGraphTask(_graphName);
     }
 
-    public abstract void addVertex();
+    public abstract AbstractVertexView addVertex();
 
-    public abstract void addVertex(double x, double y);
+    public abstract AbstractVertexView addVertex(double x, double y);
 
-    protected abstract void addVertexView(CompositeVertex _vertex);
+    protected abstract AbstractVertexView addVertexView(CompositeVertex _vertex);
 
-    protected abstract void addVertexView(CompositeVertex _vertex, double x, double y);
+    protected abstract AbstractVertexView addVertexView(CompositeVertex _vertex, double x, double y);
 
     public abstract void editVertexProperties(AbstractVertexView _vertexView);
 
@@ -120,7 +120,7 @@ public abstract class AbstractGraphController {
         _vertex.update(_editedAttributes);
     }
 
-    public abstract void reconstituteGraph();
+    public abstract void reconstituteGraphView();
 
     private void saveGraphTask(final String _graphName) {
         final double wndwWidth = 300.0d;
@@ -168,7 +168,11 @@ public abstract class AbstractGraphController {
         new Thread(saveTask).start();
     }
 
-    void setSavePath(String _filePath) {
+    public String getSavePath() {
+        return graphSaveDirectory ;
+    }
+
+    public void setSavePath(String _filePath) {
         graphSaveDirectory = _filePath;
     }
 

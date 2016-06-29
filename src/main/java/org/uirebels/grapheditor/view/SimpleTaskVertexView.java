@@ -11,6 +11,7 @@ package org.uirebels.grapheditor.view;
  */
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.uirebels.grapheditor.exceptions.VertexViewException;
+import org.uirebels.grapheditor.model.CompositeVertex;
 
 public class SimpleTaskVertexView extends AbstractVertexView {
 
@@ -88,6 +90,13 @@ public class SimpleTaskVertexView extends AbstractVertexView {
 
     public TextArea getDescriptionTextArea() {
         return vertexTextArea;
+    }
+
+    public void setVisualAttributes() {
+        CompositeVertex cVertex = (CompositeVertex) getUserData();
+        Map<String, Object> propertyMap = cVertex.getPropertiesMap();
+        vertexNameLabel.setText((String) propertyMap.get("Name"));
+        vertexTextArea.setText((String) propertyMap.get("Description"));
     }
 
 }

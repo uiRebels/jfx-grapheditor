@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.constants.StringConstant;
+import org.uirebels.grapheditor.controller.dialogs.OpenGraphSystemFileDialog;
 import org.uirebels.grapheditor.controller.dialogs.SaveGraphAsDialog;
 import org.uirebels.grapheditor.model.CompositeGraph;
 import org.uirebels.grapheditor.utils.GraphDumper;
@@ -145,7 +146,9 @@ public class JFXGraphEditorViewController {
 
     @FXML
     void openGraph(ActionEvent event) {
-        graphController.openGraph("my-tinkerpop-graph");
+        OpenGraphSystemFileDialog.pop(graphController);
+//        graphController.openGraph("my-tinkerpop-graph");
+        setStageTitle(CompositeGraph.getGraphName() + StringConstant.SPACE + StringConstant.GRAPH);
     }
 
     @FXML

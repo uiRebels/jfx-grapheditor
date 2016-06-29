@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.geometry.Point2D;
-import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.uirebels.grapheditor.constants.ConfigurationConstant;
 import org.uirebels.grapheditor.exceptions.EdgeViewException;
@@ -38,56 +37,58 @@ public class SimpleTaskController extends AbstractGraphController {
 
     public SimpleTaskController() {
         super();
-        
+
     }
 
     // ------------------------------------------------------------------------
     // following methods deal with the GraphEditor operations
     @Override
-    public void addVertex() {
+    public SimpleTaskVertexView addVertex() {
         if (lastVertexView == null) {
-            addVertex(FIRST_VERTEX_POSITION_X, FIRST_VERTEX_POSITION_Y);
+            return addVertex(FIRST_VERTEX_POSITION_X, FIRST_VERTEX_POSITION_Y);
         } else {
             Point2D loc = getNextLocation();
-            addVertex(loc.getX(), loc.getY());
+            return addVertex(loc.getX(), loc.getY());
         }
     }
 
     @Override
-    public void addVertex(double x, double y) {
-        SimpleTaskVertexView vertexView = null;
-        try {
-            vertexView = new SimpleTaskVertexView();
-        } catch (VertexViewException ex) {
-            Logger.getLogger(SimpleTaskController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (vertexView != null) {
-            vertexView.setLayoutX(x);
-            vertexView.setLayoutY(y);
-
-            final CompositeVertex vertex = graphModel.addVertex(new SimpleTaskVertex());
-            vertexView.setUserData(vertex);
-            graphView.getChildren().add(vertexView);
-
-            if (lastVertexView != null) {
-                connect(lastVertexView, vertexView);
-            }
-            lastVertexView = vertexView;
-        }
+    public SimpleTaskVertexView addVertex(double x, double y) {
+//        SimpleTaskVertexView vertexView = null;
+        // create vertex model
+        final CompositeVertex vertex = graphModel.addVertex(new SimpleTaskVertex());
+        return addVertexView(vertex, x, y);
+//        try {
+//            vertexView = new SimpleTaskVertexView();
+//        } catch (VertexViewException ex) {
+//            Logger.getLogger(SimpleTaskController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        if (vertexView != null) {
+//            vertexView.setLayoutX(x);
+//            vertexView.setLayoutY(y);
+//
+//            vertexView.setUserData(vertex);
+//            graphView.getChildren().add(vertexView);
+//
+//            if (lastVertexView != null) {
+//                connect(lastVertexView, vertexView);
+//            }
+//            lastVertexView = vertexView;
+//        }
     }
 
     @Override
-    public void addVertexView(CompositeVertex _vertex) {
+    public SimpleTaskVertexView addVertexView(CompositeVertex _vertex) {
         if (lastVertexView == null) {
-            addVertexView(_vertex, FIRST_VERTEX_POSITION_X, FIRST_VERTEX_POSITION_Y);
+            return addVertexView(_vertex, FIRST_VERTEX_POSITION_X, FIRST_VERTEX_POSITION_Y);
         } else {
             Point2D loc = getNextLocation();
-            addVertexView(_vertex, loc.getX(), loc.getY());
+            return addVertexView(_vertex, loc.getX(), loc.getY());
         }
     }
 
     @Override
-    protected void addVertexView(CompositeVertex _vertex, double x, double y) {
+    protected SimpleTaskVertexView addVertexView(CompositeVertex _vertex, double x, double y) {
         SimpleTaskVertexView vertexView = null;
         try {
             vertexView = new SimpleTaskVertexView();
@@ -106,6 +107,7 @@ public class SimpleTaskController extends AbstractGraphController {
             }
             lastVertexView = vertexView;
         }
+        return vertexView;
     }
 
     @Override
@@ -139,7 +141,7 @@ public class SimpleTaskController extends AbstractGraphController {
             final CompositeEdge edge = graphModel.connect(v1, v2);
             edgeView.setUserData(edge);
             graphView.getChildren().add(edgeView);
-            
+
         }
 
     }
@@ -156,8 +158,8 @@ public class SimpleTaskController extends AbstractGraphController {
         }
         if (edgeView != null) {
             edgeView.bindEndPoints(_vView1, _vView2);
-            Edge outEdge = v1.getOutEdges().get(0);
-            edgeView.setUserData(outEdge);
+            final CompositeEdge edge = graphModel.connect(v1, v2);
+            edgeView.setUserData(edge);
             graphView.getChildren().add(edgeView);
             graphView.layout();
         }
@@ -183,11 +185,13 @@ public class SimpleTaskController extends AbstractGraphController {
     }
 
     @Override
-    public void reconstituteGraph() {
+    public void reconstituteGraphView() {
         List<Vertex> vList = CompositeGraph.getGraphVertices();
-        for(Vertex v : vList){
-            addVertexView(new SimpleTaskVertex(v));
+        SimpleTaskVertexView stvView;
+        for (Vertex v : vList) {
+            stvView = addVertexView(new SimpleTaskVertex(v));
+            stvView.setVisualAttributes();
         }
     }
-
+    
 }
