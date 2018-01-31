@@ -3,5 +3,5 @@ SIMPLE, JavaFX based DAG editor
 
 ___
 
-###Run the Project
+### Run the Project
 ```./gradlew run```
